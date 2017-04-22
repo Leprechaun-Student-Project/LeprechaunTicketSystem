@@ -1,0 +1,41 @@
+{
+  "users": [
+    {
+      "username": "krutz",
+      "passHash": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+      "usernameToLower": "krutz",
+      "id": "16655985-e510-43d4-ad1c-2388c76d1ef6",
+      "authKey": "16655985-e510-43d4-ad1c-2388c76d1ef6FwHCPd*bP:.;Fu&:evl)RPGg"
+    },
+    {
+      "username": "",
+      "passHash": "",
+      "usernameToLower": "",
+      "id": "98b02640-41f3-440b-930a-a4d393072fe7"
+    },
+    {
+      "username": "xjkk",
+      "passHash": "mn,",
+      "usernameToLower": "xjkk",
+      "id": "50dd21f1-e06f-44c7-828f-8a1bed79f249"
+    },
+    {
+      "username": "aaaa",
+      "passHash": "aa",
+      "usernameToLower": "aaaa",
+      "id": "974ef439-4029-44b6-a84d-f652b447328e"
+    },
+    {
+      "username": "aa",
+      "passHash": "",
+      "usernameToLower": "aa",
+      "id": "e832c929-c4e5-4480-a0d5-841a4f262d6f"
+    },
+    {
+      "username": "wjrhbg",
+      "passHash": "wrnbrngn",
+      "usernameToLower": "wjrhbg",
+      "id": "7780f3e3-d905-4e31-babd-a65328bd774f"
+    }
+  ]
+}
