@@ -13,8 +13,14 @@
     "body-parser": "^1.17.1",
     "cors": "^2.8.3",
     "express": "^4.15.2",
+    "handlebars": "^4.0.6",
+    "jquery": "^3.2.1",
     "lodash": "^3.10.1",
     "lowdb": "^0.10.3",
+    "navigo": "^4.6.2",
+    "systemjs": "^0.20.12",
+    "systemjs-plugin-babel": "0.0.21",
+    "toastr": "^2.1.2",
     "underscore-db": "^0.9.1"
   }
 }

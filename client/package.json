@@ -1,0 +1,18 @@
+{
+  "name": "team-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./server/server.js",
+    "start-app": "live-server ./client/index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "navigo": "^4.5.2",
+    "systemjs": "^0.20.12",
+    "systemjs-plugin-babel": "0.0.21"
+  }
+}

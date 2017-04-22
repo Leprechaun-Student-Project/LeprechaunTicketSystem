@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use(express.static('client'));
+app.use(express.static('../client'));
 app.use('/node_modules', express.static('node_modules'));
 
 require('./utils/authorize-user')(app, db);
