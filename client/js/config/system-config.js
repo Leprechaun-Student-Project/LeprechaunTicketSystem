@@ -11,6 +11,8 @@ SystemJS.config({
         'users': './js/controlers/users-controler.js',
         'templates': './js/templates.js',
         'json-requester': './js/json-requester.js',
-        'data': './js/data.js'
+        'data': './js/data.js',
+        'tickets':'./js/controlers/display-tickets.js'
+        
     }
 });
