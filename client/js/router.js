@@ -6,7 +6,11 @@ function initRouter() {
 
     router
         .on('login', () => users.register())
-        .on('/', () => tickets.displayTickets());
+        .on('/', () =>{ 
+            tickets.displayNavBar();
+            tickets.displayTickets();
+            tickets.displayPagination();
+            });
 }
 
 export {

@@ -50,6 +50,15 @@ let tableObj = {
     }, ]
 };
 
+function displayNavBar() {
+    console.log('yes')
+    let navBar = templates.get('navBar')
+        .then(function (template) {
+            console.log(template)
+            $('#header-container').html(template())
+        });
+}
+
 function displayTickets() {
     let main = templates.get('main')
         .then(function (template) {
@@ -61,6 +70,16 @@ function displayTickets() {
 
     });
 
+}
+
+function displayPagination() {
+    let paginationSize = {
+        page: ["1", "2", "..", "7", "8"]
+    };
+    let pagination = templates.get('pagination')
+        .then(function (template) {
+            $('#footer-container').html(template(paginationSize))
+        });
 }
 
 function addLink(index) {
@@ -87,5 +106,7 @@ function changeGliph() {
 }
 
 export {
-    displayTickets
+    displayTickets,
+    displayNavBar,
+    displayPagination
 };
