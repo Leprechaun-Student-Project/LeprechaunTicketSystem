@@ -1,0 +1,31 @@
+<table class="table table-hover">
+    <thead>
+        <th>
+        </th>
+        {{#each ticket.[0]}}
+        <th>{{@key}}</th>
+        {{/each}}
+    </thead>
+    <tbody>
+        {{#each ticket}}
+        <tr id="{{this.id}}">
+            <td>
+                <a class="plus glyphicon glyphicon-plus" aria-hidden="true" role="button" data-toggle="collapse" href="#description{{this.id}}"
+                    aria-expanded="false" aria-controls="description{{this.id}}"></td>
+            {{#each this}}
+            <td class={{@key}}>{{this.[0]}}
+            </td>
+            {{/each}}
+            <tr>
+                <td colspan="6">
+                    <div class="collapse" id="description{{this.id}}">
+                        <div class="well">
+                            {{this.description.[1]}}
+                        </div>
+                    </div>
+                </td>
+                <tr>
+                </tr>
+                {{/each}}
+    </tbody>
+</table>
