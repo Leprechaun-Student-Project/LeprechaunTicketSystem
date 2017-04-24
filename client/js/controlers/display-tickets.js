@@ -51,31 +51,32 @@ let tableObj = {
 };
 
 function displayTickets() {
-    templates.get('main')
+    let main = templates.get('main')
         .then(function (template) {
             $('#main-content').html(template(tableObj))
-        }).then(() => {
-            $('.plus').on('click', changeGliph())
         });
-    console.log($('.plus'));
-    $('.plus').on('click', changeGliph);
-    $('.id').each(addLink);
+    Promise.all([main]).then(() => {
+        $('.plus').on('click', changeGliph);
+        $('.id').each(addLink);
+
+    });
 
 }
 
 function addLink(index) {
-    $this = $(this);
+    let $this = $(this);
+    let trimmedID = $this.text().trim();
     let addressObj = {
-        address: '#ticket' + $this.text(),
-        idText: $this.text()
+        address: '#ticket' + trimmedID,
+        idText: trimmedID
     }
-    this.innerHTML = (Handlebars.compile(genLink)(addressObj));
-
+    //TODO Export template
+    let template = '<a href="{{address}}">{{idText}}</a>';
+    this.innerHTML = (Handlebars.compile(template)(addressObj));
 }
 
 function changeGliph() {
-    console.log(row)
-    $this = $(this);
+    let $this = $(this);
     if ($this.hasClass('glyphicon-plus')) {
         $this.removeClass('glyphicon-plus');
         $this.addClass('glyphicon-minus');
@@ -84,6 +85,7 @@ function changeGliph() {
         $this.addClass('glyphicon-plus');
     }
 }
+
 export {
     displayTickets
 };
