@@ -7,6 +7,8 @@ function initRouter() {
 
     router
         .on('register', () => users.register())
+        .on('login', () => users.loginForm())
+        .on('logout', () => users.logout())
         .on('NewTicket', () => newTicket.displayForm())
         .on('/', () => {
             tickets.displayTickets();

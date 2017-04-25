@@ -1,7 +1,5 @@
 import * as requester from 'json-requester';
 
-const USERNAME_LOCAL_STORAGE_KEY = 'signed-in-user-username',
-    AUTH_KEY_LOCAL_STORAGE_KEY = 'signed-in-user-auth-key';
 
 const USERNAME_CHARS = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890_.",
     USERNAME_MIN_LENGTH = 6,
@@ -23,8 +21,8 @@ function register(user) {
         lsname: user.lsname,
         email: user.email
     };
-console.log(JSON.stringify(reqUser));
-    return requester.post('http://localhost:3000/api/users', {
+
+    return requester.post('api/users', {
             data: reqUser
         })
         .then(function(resp) {
@@ -35,10 +33,21 @@ console.log(JSON.stringify(reqUser));
         });
 }
 
+function login(username, passHash) {
+    return requester.put('api/auth', {
+        data: {
+            username,
+            passHash
+        }
+    });
+}
+
+
+
 /* NewTickets*/
 
 function sendNewTicket(ticketObj) {
-    return requester.post('http://localhost:3000/api/newticket', {
+    return requester.post('api/newticket', {
             data: ticketObj
         })
         .then(function(resp) {
@@ -51,5 +60,6 @@ function sendNewTicket(ticketObj) {
 
 export {
     register,
+    login,
     sendNewTicket
 }

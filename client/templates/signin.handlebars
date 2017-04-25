@@ -1,9 +1,14 @@
-<div class="container">
-    <form class="form-signin">
-        <h3>User Login</h3><label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
-</div>
+<fieldset class="form-signin">
+    <legend>User Login</legend>
+    <div class="form-group row has-danger">
+        <div class="col-sm-4">
+            <input id="input-username" type="text" class="form-control form-control-danger" placeholder="Username">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-4">
+            <input id="input-password" type="password" class="form-control" placeholder="First Name">
+        </div>
+    </div>
+    <button id="sign-in" class="btn btn-lg btn-primary btn-block">Sign in</button>
+</fieldset>

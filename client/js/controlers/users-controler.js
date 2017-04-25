@@ -1,6 +1,10 @@
 import * as templates from 'templates';
 import * as data from 'data';
 
+const USERNAME_LOCAL_STORAGE_KEY = 'signed-in-user-username',
+    AUTH_KEY_LOCAL_STORAGE_KEY = 'signed-in-user-auth-key';
+
+
 function validateUserData(inputData) {
     const {
         username,
@@ -71,6 +75,7 @@ function register() {
                 if (validateUserData(inputData)) {
                     data.register(inputData)
                         .then(function(successObject) {
+                            login(username, pass);
                             toastr.success(`User ${successObject.username} registered!`);
                         }, function(err) {
                             toastr.error(err.responseJSON);
@@ -81,8 +86,48 @@ function register() {
         });
 }
 
+function loginForm() {
+    templates.get('signin')
+        .then(function(template) {
+            $('#main-content').html(template());
+
+            $('#sign-in').on('click', function() {
+                const username = $('#input-username').val();
+                const password = $('#input-password').val();
+                login(username, password)
+            });
+        });
+}
+
+function login(username, password) {
+    const usrname = username;
+    const pass = password;
+    const passHash = pass; // HASH ME
+
+    data.login(usrname, passHash)
+        .then(
+            result => {
+                console.log(JSON.stringify(result));
+                localStorage.setItem(AUTH_KEY_LOCAL_STORAGE_KEY, result.result.authKey);
+                $('#log-in').addClass('hidden');
+                $('#log-out').removeClass('hidden');
+                toastr.success(`Hi, ${username}`);
+                location.href = '#';
+            },
+            errorMsg => toastr.error(errorMsg));
+}
+
+function logout() {
+    localStorage.removeItem(AUTH_KEY_LOCAL_STORAGE_KEY);
+    $('#log-in').removeClass('hidden');
+    $('#log-out').addClass('hidden');
+    //toastr.success('Logged out');
+    location.href = '#';
+}
+
 
 export {
     register,
-
+    loginForm,
+    logout
 };
