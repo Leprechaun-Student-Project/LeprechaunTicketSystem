@@ -8,7 +8,7 @@
         <input type="text" class="form-control" placeholder="Subject/short description" aria-describedby="basic-addon1" id="shortDescription">
         <textarea style="width:100%" rows="8%" id="lognDescription"></textarea>
 <div class="dropdown">
-    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+    <button class="btn btn-default dropdown-toggle" type="button" id="engineer" data-toggle="dropdown" aria-haspopup="true"
         aria-expanded="true">
     Select Engineer
         <span class="caret"></span>
@@ -19,6 +19,19 @@
         {{/each}}
     </ul>
 </div>
+<div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="urgency" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="true">
+    Select Urgency
+        <span class="caret"></span>
+        </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        {{#each urgency}}
+        <li><a>{{this}}</a></li>
+        {{/each}}
+    </ul>
+</div>
+
 <button class="btn btn-lg btn-primary btn-block" type="submit" id="sendNewTicket">Send ticket</button>
 </div>
 </div>
