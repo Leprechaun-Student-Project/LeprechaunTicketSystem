@@ -15,13 +15,15 @@ const COOKIE_TEXT_MIN_LENGTH = 6,
 /* Users */
 
 function register(user) {
-
     const reqUser = {
         username: user.username,
         //passHash: CryptoJS.SHA1(user.username + user.password).toString()
-        passHash: user.password
+        passHash: user.pass,
+        frstname: user.frstname,
+        lsname: user.lsname,
+        email: user.email
     };
-
+console.log(JSON.stringify(reqUser));
     return requester.post('http://localhost:3000/api/users', {
             data: reqUser
         })
@@ -35,15 +37,15 @@ function register(user) {
 
 /* NewTickets*/
 
-function sendNewTicket(ticketObj){
-    return requester.post('http://localhost:3000/api/newticket',{
-        data:ticketObj
-    })
-    .then(function(resp){
-        return {
-            result:resp.result
-        }
-    });
+function sendNewTicket(ticketObj) {
+    return requester.post('http://localhost:3000/api/newticket', {
+            data: ticketObj
+        })
+        .then(function(resp) {
+            return {
+                result: resp.result
+            }
+        });
 
 }
 
