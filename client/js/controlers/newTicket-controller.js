@@ -35,16 +35,16 @@ function submitForm() {
         date: new Date(),
         engneer: $('#engineer').text(),
         urgency: $('#urgency').text(),
-        comment:$('#comment').val()
+        comment: $('#comment').val()
     }
     console.log(newTicket);
     document.location.href = '#';
     data.sendNewTicket(newTicket)
-        .then(function(successObj){
-                console.log('send new ticket')
-        }, function(err){
+        .then(function (successObj) {
+            console.log('send new ticket')
+        }, function (err) {
             //TODO no idea what does it do
-            toastr.error(err.responseJSON);
+            console.log("no success")
         })
 }
 

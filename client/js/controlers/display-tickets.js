@@ -51,10 +51,8 @@ let tableObj = {
 };
 
 function displayNavBar() {
-    console.log('yes')
     let navBar = templates.get('navBar')
         .then(function (template) {
-            console.log(template)
             $('#header-container').html(template())
         });
 }

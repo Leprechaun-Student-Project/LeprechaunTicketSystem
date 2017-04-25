@@ -25,9 +25,9 @@ app.put("/api/auth", usersController.put);
 
 //New ticket
 const newTicketController=require("./controllers/newTicket-controller.js")(db);
-app.get("api/newticket",newTicketController.get);
-app.post("api/newticket",newTicketController.post);
-app.put("api/newticket",newTicketController.put);
+app.get("/api/newticket",newTicketController.get);
+app.post("/api/newticket",newTicketController.post);
+app.put("/api/newticket",newTicketController.put);
 
 
 
