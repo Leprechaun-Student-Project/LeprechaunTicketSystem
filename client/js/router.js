@@ -6,7 +6,8 @@ function initRouter() {
 
     router
         .on('login', () => users.register())
-        .on('/', () =>{ 
+        .on('NewTicket', () => console.log('here'))
+        .on('/', () =>{
             tickets.displayNavBar();
             tickets.displayTickets();
             tickets.displayPagination();
