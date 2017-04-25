@@ -6,13 +6,12 @@ function initRouter() {
     const router = new Navigo(null, false);
 
     router
-        .on('login', () => users.register())
+        .on('register', () => users.register())
         .on('NewTicket', () => newTicket.displayForm())
-        .on('/', () =>{
-            tickets.displayNavBar();
+        .on('/', () => {
             tickets.displayTickets();
             tickets.displayPagination();
-            });
+        });
 }
 
 export {

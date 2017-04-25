@@ -20,10 +20,6 @@ function register() {
                     });
             });
         });
-        templates.get('signin')
-        .then(function(template){
-            $('#main-content').html(template());
-        })
 }
 
 export {
