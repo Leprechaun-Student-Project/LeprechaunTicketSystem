@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title ">
+                <h3>File new ticket</h3>User Name:{{date}}
+            </div>
+        </div>
+        <input type="text" class="form-control" placeholder="Subject/short description" aria-describedby="basic-addon1">
+        <textarea style="width:100%" rows="8%"></textarea>
+<div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="true">
+    Select Engineer
+        <span class="caret"></span>
+        </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        {{#each name}}
+        <li><a>{{this}}</a></li>
+        {{/each}}
+    </ul>
+</div>
+<button class="btn btn-lg btn-primary btn-block" type="submit">Send ticket</button>
+</div>
+</div>
+</div>
