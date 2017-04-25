@@ -26,6 +26,8 @@ function register() {
         })
 }
 
+
 export {
-    register
+    register,
+    
 };

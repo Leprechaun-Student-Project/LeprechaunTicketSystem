@@ -23,6 +23,13 @@ app.get("/api/users", usersController.get);
 app.post("/api/users", usersController.post);
 app.put("/api/auth", usersController.put);
 
+//New ticket
+const newTicketController=require("./controllers/newTicket-controller.js")(db);
+app.get("api/newticket",newTicketController.get);
+app.post("api/newticket",newTicketController.post);
+app.put("api/newticket",newTicketController.put);
+
+
 
 const port = 3000;
 app.listen(port, () => console.log(`Server is running at http://localhost:${port}`));

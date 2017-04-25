@@ -33,6 +33,21 @@ function register(user) {
         });
 }
 
+/* NewTickets*/
+
+function sendNewTicket(ticketObj){
+    return requester.post('http://localhost:3000/api/newticket',{
+        data:ticketObj
+    })
+    .then(function(resp){
+        return {
+            result:resp.result
+        }
+    });
+
+}
+
 export {
-    register
+    register,
+    sendNewTicket
 }
