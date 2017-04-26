@@ -9,7 +9,9 @@ function initRouter() {
         .on('register', () => users.register())
         .on('login', () => users.loginForm())
         .on('logout', () => users.logout())
-        .on('NewTicket', () => newTicket.displayForm())
+        .on('NewTicket', () => {
+            newTicket.displayForm()
+        })
         .on('/', () => {
             tickets.displayTickets();
             tickets.displayPagination();

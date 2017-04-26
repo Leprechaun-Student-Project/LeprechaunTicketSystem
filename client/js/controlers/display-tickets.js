@@ -60,23 +60,23 @@ function displayNavBar() {
 function displayTickets() {
     let main = templates.get('main')
         .then(function (template) {
-            $('#main-content').html(template(tableObj))
+            $('#main-content').append(template(tableObj))
         });
     Promise.all([main]).then(() => {
         $('.plus').on('click', changeGliph);
         $('.id').each(addLink);
-
     });
 
 }
 
 function displayPagination() {
+    
     let paginationSize = {
         page: ["1", "2", "..", "7", "8"]
     };
     let pagination = templates.get('pagination')
         .then(function (template) {
-            $('#footer-container').html(template(paginationSize))
+            $('#main-content').append(template(paginationSize))
         });
 }
 

@@ -6,6 +6,14 @@ module.exports = function (db) {
 
     function post(req, res) {
       console.log('here2');
+      console.log(req.body)
+      let ticket=req.body;
+      for(let k in ticket){
+          console.log(k)
+          if(k.match(/([<>&])./gm)){
+              console.log('bad')
+          }
+      }
         res.status(201)
             .json({
                 result: {
