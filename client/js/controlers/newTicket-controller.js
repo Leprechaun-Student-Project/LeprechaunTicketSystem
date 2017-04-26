@@ -37,15 +37,14 @@ function submitForm() {
         urgency: $('#urgency').text(),
         comment: $('#comment').val()
     }
-    console.log(newTicket);
-    document.location.href = '#';
     data.sendNewTicket(newTicket)
         .then(function (successObj) {
-            console.log('send new ticket')
+            toastr.success('Ticket successfully filed.');
         }, function (err) {
-            //TODO no idea what does it do
-            console.log("no success")
+            toastr.error('Ticket not filed to database');
         })
+    $('#main-content').text('');
+    document.location.href = '#';
 }
 
 

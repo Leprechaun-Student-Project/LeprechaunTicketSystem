@@ -5,15 +5,16 @@ module.exports = function (db) {
     }
 
     function post(req, res) {
-      console.log('here2');
-      console.log(req.body)
-      let ticket=req.body;
+     let ticket=req.body;
+     
       for(let k in ticket){
-          console.log(k)
-          if(k.match(/([<>&])./gm)){
-              console.log('bad')
+          if(ticket[k].match(/([<>&])./gm)){
+               res.status(401)
+                .json("You can't symbols like < > and & in tickets!");
+            return;
           }
       }
+      db('tickets').insert(ticket);
         res.status(201)
             .json({
                 result: {
