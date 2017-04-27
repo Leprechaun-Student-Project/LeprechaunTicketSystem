@@ -17,23 +17,19 @@ module.exports = function(db) {
     }
 
     function get(req, res) {
-        var user = req.user;
-        if (!user) {
-            res.status(401)
-                .json('Unauthorized user!');
-            return;
-        }
-        var users = db('users')
-            .map(function(user) {
+        db.collection('users').find().toArray(function(e, userCollection) {
+            let users = userCollection.map(function(user) {
                 return {
                     username: user.username,
                     id: user.id
                 };
             });
 
-        res.json({
-            result: users
+            res.json({
+                result: users
+            });
         });
+
     }
 
     function post(req, res) {
