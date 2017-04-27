@@ -1,17 +1,28 @@
-<nav aria-label="Page navigation">
+<!-- 
+ARIA (Accessible Rich Internet Applications) defines a way to 
+    make Web content and Web applications more accessible to people with disabilities.
+    -->
+<nav aria-label="Page navigation"> <!--aria-label means accessibility apps will read it out loud-->
     <ul class="pagination custom">
         <li class="customLi">
             <a href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
+                <span aria-hidden="true">&laquo;</span> <!--&raquo; means ">>"-->
             </a>
         </li>
-        {{#each page}}
-        <li><a href="#">{{this}}</a></li>
-        {{/each}}
+
+        {{#each pagination_Content}}
         <li>
-            <a href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
+            {{#if links}}
+                {{links}}
+            &nbsp;
+                aria-label="{{arias}}"
+            {{/if}}
         </li>
-    </ul>
+        {{/each}}
+            <li>
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span> <!--&raquo; means ">>"-->
+                </a>
+            </li>
+</ul>
 </nav>

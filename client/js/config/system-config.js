@@ -14,6 +14,7 @@ SystemJS.config({
         'data': './js/data.js',
         'tickets': './js/controlers/display-tickets.js',
         'sigin': './js/controlers/signin-constroller.js',
-        'newticket': './js/controlers/newTicket-controller.js'
+        'newticket': './js/controlers/newTicket-controller.js',
+        'numb-reader': './node_modules/number-to-words/numberToWords.min.js'
     }
 });

@@ -1,41 +1,42 @@
-  function send(method, url, options) {
-      options = options || {};
 
-      var headers = options.headers || {},
-          data = options.data || undefined;
+function send(method, url, options) {
+    options = options || {};
 
-      var promise = new Promise(function(resolve, reject) {
-          $.ajax({
-              url: url,
-              method: method,
-              contentType: 'application/json',
-              headers: headers,
-              data: JSON.stringify(data),
-              success: function(res) {
-                  resolve(res);
-              },
-              error: function(err) {
-                  reject(err);
-              }
-          });
-      });
-      return promise;
-  }
+    var headers = options.headers || {},
+        data = options.data || undefined;
 
-  function get(url, options) {
-      return send('GET', url, options);
-  }
+    var promise = new Promise(function (resolve, reject) {
+        $.ajax({
+            url: url,
+            method: method,
+            contentType: 'application/json',
+            headers: headers,
+            data: JSON.stringify(data),
+            success: function (res) {
+                resolve(res);
+            },
+            error: function (err) {
+                reject(err);
+            }
+        });
+    });
+    return promise;
+}
 
-  function post(url, options) {
-      return send('POST', url, options);
-  }
+function get(url, options) {
+    return send('GET', url, options);
+}
 
-  function put(url, options) {
-      return send('PUT', url, options);
-  }
+function post(url, options) {
+    return send('POST', url, options);
+}
 
-  function del(url, options) {
-      return send('POST', url, options);
-  }
+function put(url, options) {
+    return send('PUT', url, options);
+}
 
-  export { send, get, post, put, del};
+function del(url, options) {
+    return send('POST', url, options);
+}
+
+export { send, get, post, put, del };

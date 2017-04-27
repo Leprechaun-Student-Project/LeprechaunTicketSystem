@@ -22,6 +22,7 @@
     "systemjs": "^0.20.12",
     "systemjs-plugin-babel": "0.0.21",
     "toastr": "^2.1.2",
-    "underscore-db": "^0.9.1"
+    "underscore-db": "^0.9.1",
+    "number-to-words": "1.2.3"
   }
 }

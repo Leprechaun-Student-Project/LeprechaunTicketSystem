@@ -24,8 +24,15 @@
                         </div>
                     </div>
                 </td>
-                <tr>
-                </tr>
-                {{/each}}
+                <td colspan="6">
+                    <div class="collapse" id="description{{this.id}}">
+                        <div class="well">
+                            {{this.description.[1]}}
+                        </div>
+                    </div>
+                </td>
+            <tr>
+        {{/each}}
+        </tr>
     </tbody>
 </table>
