@@ -1,12 +1,10 @@
-import * as users from 'users';         // './js/controlers/users-controler.js'
-import * as tickets from 'tickets';     // './js/controlers/display-tickets.js'
-import * as newTicket from 'newticket'; // './js/controlers/newTicket-controller.js'
+import * as users from 'users';
+import * as tickets from 'tickets';
+import * as newTicket from 'newticket';
 
 function initRouter() {
     const router = new Navigo(null, false);
 
-    // https://github.com/krasimir/navigo
-    // redirect URLs to functions
     router
         .on('register', () => users.register())
         .on('login', () => users.loginForm())

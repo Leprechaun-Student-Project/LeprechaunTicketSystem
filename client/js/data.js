@@ -1,4 +1,4 @@
-import * as requester_JSON from 'json-requester'; // './js/json-requester_JSON.js'
+import * as requester_JSON from 'json-requester'; 
 
 /* Users */
 

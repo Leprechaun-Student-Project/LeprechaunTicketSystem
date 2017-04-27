@@ -1,8 +1,6 @@
-
 const handlebars = window.handlebars || window.Handlebars;
 const cache = {};
 
-// returns the HTML that Handlebars generates from the file given by the name
 function get(name) {
     const promise = new Promise(function (resolve, reject) {
 
