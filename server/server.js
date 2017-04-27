@@ -1,35 +1,57 @@
 "use strict";
 
 const express = require("express"),
-    bodyParser = require("body-parser"),
-    lowdb = require("lowdb"),
-    cors = require("cors");
+    /*Parse incoming request bodies in a middleware before your handlers, available under the req.body property.*/
+    body_Parser = require("body-parser"),
+    /*A small local database*/
+    lowdb = require("lowdb")/*,
+    CORS defines a way in which a browser and server can interact to
+        determine whether or not it is safe to allow the cross-origserver_Appin request
+    cors = require("cors")*/;
 
 const db = lowdb("./data/data.json");
-db._.mixin(require("underscore-db"));
 
-const app = express();
-app.use(cors());
-app.use(bodyParser.json());
+// underscore-db adds functions to Underscore/Lodash for manipulating database- like objects.
+var underscore_DB = require("underscore-db");
 
-app.use(express.static('../client'));
-app.use('/node_modules', express.static('node_modules'));
+// Database lodash instance("db._"). Use it to add your own utility functions or third-party mixins
+db._.mixin(underscore_DB);
 
-require('./utils/authorize-user')(app, db);
+const express_App = express();
+//express_App.use(cors());
 
-//User routes
-const usersController = require("./controllers/users-controller")(db);
-app.get("/api/users", usersController.get);
-app.post("/api/users", usersController.post);
-app.put("/api/auth", usersController.put);
+// "express_App.use":
+// Mounts the specified middleware function or functions at the specified path: 
+//      the middleware function is executed when the base of the requested path matches path.
+express_App.use(body_Parser.json());
 
-//New ticket
-const newTicketController=require("./controllers/newTicket-controller.js")(db);
-app.get("/api/newticket",newTicketController.get);
-app.post("/api/newticket",newTicketController.post);
-app.put("/api/newticket",newTicketController.put);
+// serve staticj content form the req.url + root-path
+express_App.use(express.static('../client'));
 
+// gives static access to the modules over the internet for SystemJS to use
+// Is this a sequrity concern? if not, why? if yes, why?
+express_App.use('/node_modules', express.static('node_modules'));
 
+// work in progress?
+require('./utils/authorize-user')(express_App, db);
 
+// User routes
+const users_Controller = require("../server/controllers/users-controller")(db);
+express_App.get("/api/users", users_Controller.get);
+express_App.post("/api/users", users_Controller.post);
+express_App.put("/api/auth", users_Controller.put);
+
+// New ticket routes
+const new_Ticket_Controller = require("../server/controllers/newTicket-controller.js")(db);
+express_App.get("/api/newticket", new_Ticket_Controller.get);
+express_App.post("/api/newticket", new_Ticket_Controller.post);
+express_App.put("/api/newticket", new_Ticket_Controller.put);
+
+// Listing the tickets routine
+const listing_Controller = require("../server/controllers/listings-controller.js")(db);
+express_App.post("/listing/page:page_Index/amount:number_Of_Pages", listing_Controller.post_For_Tickets);
+express_App.post("/listlength", listing_Controller.post_For_Length);
+
+// Start the server
 const port = 3000;
-app.listen(port, () => console.log(`Server is running at http://localhost:${port}`));
+express_App.listen(port, () => console.log(`Server is running at http://localhost:${port}`));

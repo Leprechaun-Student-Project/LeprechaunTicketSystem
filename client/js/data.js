@@ -1,4 +1,4 @@
-import * as requester from 'json-requester';
+import * as requester_JSON from 'json-requester';  // './js/json-requester_JSON.js'
 
 
 const USERNAME_CHARS = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890_.",
@@ -12,32 +12,35 @@ const COOKIE_TEXT_MIN_LENGTH = 6,
 
 /* Users */
 
-function register(user) {
+function register_New_User(user) {
+    
     const reqUser = {
-        username: user.username,
-        //passHash: CryptoJS.SHA1(user.username + user.password).toString()
+        display_Name: user.display_Name,
+        // TODO:
+        //passHash: CryptoJS.SHA1(user.display_Name + user.password).toString()
         passHash: user.pass,
-        frstname: user.frstname,
-        lsname: user.lsname,
+        first_Name: user.first_Name,
+        last_Name: user.last_Name,
         email: user.email
     };
 
-    return requester.post('api/users', {
+    // call controller on server 
+    return requester_JSON.post('api/users', {
             data: reqUser
         })
         .then(function(resp) {
-            const user = resp.result;
+            //const user = resp.result;
             return {
-                username: resp.result.username
+                display_Name: resp.result.display_Name
             };
         });
 }
 
-function login(username, passHash) {
-    return requester.put('api/auth', {
+function login(display_Name, pass_Hash) {
+    return requester_JSON.put('api/auth', {
         data: {
-            username,
-            passHash
+            display_Name,
+            pass_Hash
         }
     });
 }
@@ -46,8 +49,8 @@ function login(username, passHash) {
 
 /* NewTickets*/
 
-function sendNewTicket(ticketObj) {
-    return requester.post('api/newticket', {
+function send_New_Ticket(ticketObj) {
+    return requester_JSON.post('api/newticket', {
             data: ticketObj
         })
         .then(function(resp) {
@@ -58,8 +61,36 @@ function sendNewTicket(ticketObj) {
 
 }
 
+// get the tickets from <-> to
+function get_Tickets_Range(page_Index, number_Of_tickets_Per_Page) {
+    return requester_JSON.post('/listing/page' + page_Index + '/amount' + number_Of_tickets_Per_Page,
+        {
+
+        })
+        .then(function (resp) {
+            return {
+                result: resp.result
+            }
+        });
+}
+
+// get the total amount of tickets
+function get_Tickets_Numb() {
+    return requester_JSON.post('/listlength',
+        {
+
+        })
+        .then(function (resp) {
+            return {
+                result: resp.result
+            }
+        });
+}
+
 export {
-    register,
+    register_New_User,
     login,
-    sendNewTicket
+    send_New_Ticket,
+    get_Tickets_Range,
+    get_Tickets_Numb
 }
