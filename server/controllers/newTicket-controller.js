@@ -1,20 +1,21 @@
-module.exports = function (db) {
+module.exports = function(db) {
 
     function get(req, res) {
         console.log('here1');
     }
 
     function post(req, res) {
-     let ticket=req.body;
-     
-      for(let k in ticket){
-          if(ticket[k].match(/([<>&])./gm)){
-               res.status(401)
-                .json("You can't symbols like < > and & in tickets!");
-            return;
-          }
-      }
-      db('tickets').insert(ticket);
+      console.log('hereeeee');
+        let ticket = req.body;
+
+        for (let k in ticket) {
+            if (ticket[k].match(/([<>&])./gm)) {
+                res.status(401)
+                    .json("You can't symbols like < > and & in tickets!");
+                return;
+            }
+        }
+        db.collection('tickets').insert(ticket);
         res.status(201)
             .json({
                 result: {
@@ -24,7 +25,7 @@ module.exports = function (db) {
     }
 
     function put(req, res) {
-       console.log('here3');
+        console.log('here3');
     }
 
     return {

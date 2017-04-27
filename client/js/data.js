@@ -34,7 +34,7 @@ function login(username, passHash) {
 
 /* NewTickets*/
 
-function send_New_Ticket(ticketObj) {
+function sendNewTicket(ticketObj) {
     return requester_JSON.post('api/newticket', {
             data: ticketObj
         })
@@ -73,7 +73,7 @@ function get_Tickets_Numb() {
 export {
     register,
     login,
-    send_New_Ticket,
+    sendNewTicket,
     get_Tickets_Range,
     get_Tickets_Numb
 }
