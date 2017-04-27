@@ -8,8 +8,8 @@ function initRouter() {
     // https://github.com/krasimir/navigo
     // redirect URLs to functions
     router
-        .on('register', () => users.build_Form_For_New_User())
-        .on('login', () => users.login_Form())
+        .on('register', () => users.register())
+        .on('login', () => users.loginForm())
         .on('logout', () => users.logout())
         .on('NewTicket', () => {
             newTicket.displayForm()

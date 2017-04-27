@@ -1,60 +1,51 @@
+import * as templates from 'templates';
+import * as data from 'data';
 
-import * as templates from 'templates'; // './js/templates.js'
-import * as data from 'data';           // './js/data.js'
+const USERNAME_LOCAL_STORAGE_KEY = 'signed-in-user-username',
+    AUTH_KEY_LOCAL_STORAGE_KEY = 'signed-in-user-auth-key';
 
-const USERNAME_LOCAL_STORAGE_KEY = 'signed-in-user-display_Name';
-const AUTH_KEY_LOCAL_STORAGE_KEY = 'signed-in-user-auth-key';
 
-// validate input user types into the form at 
-function validate_User_Data(form_Input_Data) {
+function validateUserData(inputData) {
     const {
-        display_Name,
-        first_Name,
-        last_Name,
+        username,
+        frstname,
+        lsname,
         email,
         pass,
-        pass_Confirm
-    } = form_Input_Data;
+        passConfirm
+    } = inputData;
 
-    // https://regexper.com/#%2F%5E%5Ba-zA-Z0-9_%5C.%5D%7B6%2C30%7D%24%2F
-    const regex_User_Name = /^[a-zA-Z0-9_\.]{6,30}$/;
-
+    const regexUsername = /^[a-zA-Z0-9_\.]{6,30}$/;
     let error = false;
-
-    if (!regex_User_Name.test(display_Name)) {
-        /*toastr is a Javascript library for non-blocking notifications. jQuery is required. 
-           The goal is to create a simple core library that can be customized and extended.*/
-        toastr.error('Not correct display_Name field');
+    if (!regexUsername.test(username)) {
+        toastr.error('Not correct username field');
         error = true;
     }
 
-    // https://regexper.com/#%2F%5E%5Ba-zA-Z%5D%7B1%2C30%7D%24%2F
-    const regex_Name = /^[a-zA-Z]{1,30}$/;
+    const regexName = /^[a-zA-Z]{1,30}$/;
 
-    if (!regex_Name.test(first_Name)) {
+    if (!regexName.test(frstname)) {
         toastr.error('Not correct first name field');
         error = true;
     }
 
-    if (!regex_Name.test(last_Name)) {
+    if (!regexName.test(lsname)) {
         toastr.error('Not correct last name field');
         error = true;
     }
 
-    // https://regexper.com/#%2F%5E%5Cw%2B(%5B%5C.-%5D%3F%5Cw%2B)*%40%5Cw%2B(%5B%5C.-%5D%3F%5Cw%2B)*(%5C.%5Cw%7B2%2C3%7D)%2B%24%2F
-    var regex_Email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-    if (!regex_Email.test(email)) {
+    var regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (!regexEmail.test(email)) {
         toastr.error('Not correct email field');
         error = true;
     }
 
-    if (!regex_User_Name.test(pass)) {
+    if (!regexUsername.test(pass)) {
         toastr.error('Not correct password field');
         error = true;
     }
 
-    if (pass !== pass_Confirm) {
+    if (pass !== passConfirm) {
         toastr.error('Not correct confirmation');
         error = true;
     }
@@ -66,29 +57,26 @@ function validate_User_Data(form_Input_Data) {
     }
 }
 
-function build_Form_For_New_User() {
+function register() {
     templates.get('register')
-        .then(function (template_HTML) {
+        .then(function(template) {
+            $('#main-content').html(template());
 
-            // draw form on window
-            $('#main-content').html(template_HTML());
-
-            $('#btn-register').on('click', function () {
-
-                const form_Input_Data = {
-                    display_Name: $('#tb-reg-display_Name').val(),
-                    first_Name: $('#tb-reg-first_Name').val(),
-                    last_Name: $('#tb-reg-last_Name').val(),
+            $('#btn-register').on('click', function() {
+                const inputData = {
+                    username: $('#tb-reg-username').val(),
+                    frstname: $('#tb-reg-frstname').val(),
+                    lsname: $('#tb-reg-lsname').val(),
                     email: $('#tb-reg-email').val(),
                     pass: $('#tb-reg-pass').val(),
-                    pass_Confirm: $('#tb-reg-pass-confirm').val()
+                    passConfirm: $('#tb-reg-pass-confirm').val()
                 };
 
-                if (validate_User_Data(form_Input_Data)) {
-                    data.register_New_User(form_Input_Data)
+                if (validateUserData(inputData)) {
+                    data.register(inputData)
                         .then(function(successObject) {
-                            login(display_Name, pass);
-                            toastr.success(`User ${successObject.display_Name} registered!`);
+                            login(inputData.username, inputData.pass);
+                            toastr.success(`User ${successObject.username} registered!`);
                         }, function(err) {
                             toastr.error(err.responseJSON);
                         });
@@ -98,21 +86,21 @@ function build_Form_For_New_User() {
         });
 }
 
-function login_Form() {
+function loginForm() {
     templates.get('signin')
-        .then(function(template_HTML) {
-            $('#main-content').html(template_HTML());
+        .then(function(template) {
+            $('#main-content').html(template());
 
             $('#sign-in').on('click', function() {
-                const display_Name = $('#input-display_Name').val();
+                const username = $('#input-username').val();
                 const password = $('#input-password').val();
-                login(display_Name, password)
+                login(username, password)
             });
         });
 }
 
-function login(display_Name, password) {
-    const usrname = display_Name;
+function login(username, password) {
+    const usrname = username;
     const pass = password;
     const passHash = pass; // HASH ME
 
@@ -123,7 +111,7 @@ function login(display_Name, password) {
                 localStorage.setItem(AUTH_KEY_LOCAL_STORAGE_KEY, result.result.authKey);
                 $('#log-in').addClass('hidden');
                 $('#log-out').removeClass('hidden');
-                toastr.success(`Hi, ${display_Name}`);
+                toastr.success(`Hi, ${username}`);
                 location.href = '#';
             },
             errorMsg => toastr.error(errorMsg));
@@ -139,7 +127,7 @@ function logout() {
 
 
 export {
-    build_Form_For_New_User,
-    login_Form,
+    register,
+    loginForm,
     logout
 };
