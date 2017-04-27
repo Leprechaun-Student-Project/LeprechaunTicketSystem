@@ -12,7 +12,7 @@ function initRouter() {
         .on('NewTicket', () => {
             newTicket.displayForm()
         })
-        .on('list/:page_Index', function (params) {
+        .on('list/:page_Index', function(params) {
             // on calling the rooth directory on server
             // render the template listing the tickets and ..
             tickets.display_Tickets(params.page_Index);

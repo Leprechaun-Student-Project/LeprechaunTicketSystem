@@ -1,12 +1,11 @@
-import * as requester_JSON from 'json-requester'; 
+import * as requester_JSON from 'json-requester';
 
 /* Users */
 
 function register(user) {
     const reqUser = {
         username: user.username,
-        //passHash: CryptoJS.SHA1(user.username + user.password).toString()
-        passHash: user.pass,
+        passHash: CryptoJS.SHA256(user.pass).toString(),
         frstname: user.frstname,
         lsname: user.lsname,
         email: user.email
@@ -23,7 +22,8 @@ function register(user) {
         });
 }
 
-function login(username, passHash) {
+function login(username, pass) {
+    const passHash = CryptoJS.SHA256(pass).toString();
     return requester_JSON.put('api/auth', {
         data: {
             username,

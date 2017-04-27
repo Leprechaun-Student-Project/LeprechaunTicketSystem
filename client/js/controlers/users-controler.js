@@ -102,32 +102,58 @@ function loginForm() {
 function login(username, password) {
     const usrname = username;
     const pass = password;
-    const passHash = pass; // HASH ME
 
-    data.login(usrname, passHash)
+    data.login(usrname, pass)
         .then(
             result => {
-                console.log(JSON.stringify(result));
                 localStorage.setItem(AUTH_KEY_LOCAL_STORAGE_KEY, result.result.authKey);
+                localStorage.setItem(USERNAME_LOCAL_STORAGE_KEY, result.result.username);
                 $('#log-in').addClass('hidden');
                 $('#log-out').removeClass('hidden');
+                $('#nav-username').removeClass('hidden');
+                $('#nav-username').html(username);
                 toastr.success(`Hi, ${username}`);
                 location.href = '#';
             },
-            errorMsg => toastr.error(errorMsg));
+            errorMsg => {
+                toastr.error(errorMsg.responseJSON);
+            });
 }
 
 function logout() {
     localStorage.removeItem(AUTH_KEY_LOCAL_STORAGE_KEY);
     $('#log-in').removeClass('hidden');
     $('#log-out').addClass('hidden');
-    //toastr.success('Logged out');
+    $('#nav-username').addClass('hidden');
+    toastr.success('Logged out');
     location.href = '#';
+}
+
+function isLoggedIn() {
+    if (localStorage.getItem(AUTH_KEY_LOCAL_STORAGE_KEY)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function initUserNavbar() {
+    if (isLoggedIn()) {
+        $('#log-in').addClass('hidden');
+        $('#log-out').removeClass('hidden');
+        $('#nav-username').removeClass('hidden');
+        $('#nav-username').html(localStorage.getItem(USERNAME_LOCAL_STORAGE_KEY));
+    } else {
+        $('#log-in').removeClass('hidden');
+        $('#log-out').addClass('hidden');
+        $('#nav-username').addClass('hidden');
+    }
 }
 
 
 export {
     register,
     loginForm,
-    logout
+    logout,
+    initUserNavbar
 };

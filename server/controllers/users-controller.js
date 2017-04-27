@@ -3,7 +3,35 @@ module.exports = function(db) {
         AUTH_KEY_CHARS = 'qwertyuiopasdfghjklzxcvbnmWERTYUIOPASDFGHJKLZXCVBNM';
 
     function validate(user) {
+        const {
+            username,
+            frstname,
+            lsname,
+            email
+        } = user;
 
+        const regexUsername = /^[a-zA-Z0-9_\.]{6,30}$/;
+
+        if (!regexUsername.test(username)) {
+            return false;
+        }
+
+        const regexName = /^[a-zA-Z]{1,30}$/;
+
+        if (!regexName.test(frstname)) {
+            return false
+        }
+
+        if (!regexName.test(lsname)) {
+            return false;
+        }
+
+        var regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (!regexEmail.test(email)) {
+            return false;
+        }
+
+        return true;
     }
 
     function generateAuthKey(uniquePart) {
@@ -21,7 +49,8 @@ module.exports = function(db) {
             let users = userCollection.map(function(user) {
                 return {
                     username: user.username,
-                    id: user.id
+                    frstname: user.frstname,
+                    lsname: user.lsname
                 };
             });
 
@@ -40,15 +69,14 @@ module.exports = function(db) {
                 .json('Invalid user');
             return;
         }
-        const error = validate(user);
 
-        if (error) {
+        if (!validate(user)) {
             res.status(400)
-                .json(error.message);
+                .json('Incorect user input data data');
             return;
         }
 
-        const dbUserCursor = db.collection('users').findOne({
+        db.collection('users').findOne({
             usernameToLower: user.username.toLowerCase()
         }, function(e, dbUser) {
             if (dbUser) {
@@ -72,21 +100,26 @@ module.exports = function(db) {
 
         const reqUser = req.body;
 
-        const dbUserCursor = db.collection('users').findOne({
+        db.collection('users').findOne({
             usernameToLower: reqUser.username.toLowerCase()
         }, function(e, user) {
-            console.log(reqUser);
-            console.log(user);
-
             if (!user || user.passHash !== reqUser.passHash) {
                 res.status(404)
                     .json('Invalid username or password');
                 return;
             }
-            //  if (!user.authKey) {
-            //      user.authKey = generateAuthKey(user.id);
-            //      // TO DO update    db.save();
-            //  }
+            if (!user.authKey) {
+                user.authKey = generateAuthKey(user.username);
+
+                db.collection('users').update({
+                    _id: user._id
+                }, {
+                    $set: {
+                        'authKey': user.authKey
+                    }
+                });
+
+            }
 
             res.json({
                 result: {
