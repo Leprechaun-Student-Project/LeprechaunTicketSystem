@@ -5,7 +5,6 @@ module.exports = function(db) {
     }
 
     function post(req, res) {
-      console.log('hereeeee');
         let ticket = req.body;
 
         for (let k in ticket) {

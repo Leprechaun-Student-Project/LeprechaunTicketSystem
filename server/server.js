@@ -26,16 +26,16 @@ MongoClient.connect('mongodb://admin:admin@ds151060.mlab.com:51060/ticket-system
     require('./utils/authorize-user')(express_App, db);
 
     // User routes
-    const users_Controller = require("../server/controllers/users-controller")(db);
-    express_App.get("/api/users", users_Controller.get);
-    express_App.post("/api/users", users_Controller.post);
-    express_App.put("/api/auth", users_Controller.put);
+    const usersController = require("../server/controllers/users-controller")(db);
+    express_App.get("/api/users", usersController.get);
+    express_App.post("/api/users", usersController.post);
+    express_App.put("/api/auth", usersController.put);
 
     // New ticket routes
-    const new_Ticket_Controller = require("../server/controllers/newTicket-controller.js")(db);
-    express_App.get("/api/newticket", new_Ticket_Controller.get);
-    express_App.post("/api/newticket", new_Ticket_Controller.post);
-    express_App.put("/api/newticket", new_Ticket_Controller.put);
+    const ticketController = require("../server/controllers/ticket-controller.js")(db);
+    express_App.get("/api/newticket", ticketController.get);
+    express_App.post("/api/newticket", ticketController.post);
+    express_App.put("/api/newticket", ticketController.put);
 
     // Listing the tickets routine
     const listing_Controller = require("../server/controllers/listings-controller.js")(db);
