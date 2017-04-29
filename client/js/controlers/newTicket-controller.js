@@ -42,7 +42,7 @@ function submitForm() {
         urgency: $('#urgency-text').text(),
         comment: $('#comment').val()
     }
-    console.log(newTicket);
+    
     data.sendNewTicket(newTicket)
         .then(function(successObj) {
             toastr.success('Ticket successfully filed.');
