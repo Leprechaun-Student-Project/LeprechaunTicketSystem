@@ -3,27 +3,32 @@ import * as data from 'data';
 
 function displayForm() {
 
-    let newTicket = templates.get('newTicket')
-        .then(function (template) {
+    Promise.all([templates.get('newTicket'), data.getUsers()])
+        .then(([template, users]) => {
             let currentDate = new Date().toString().split(' ');
             currentDate = currentDate[1] + " " + currentDate[2] + " " + currentDate[3] + " " + currentDate[4];
             $('#main-content').html(template({
                 date: currentDate,
-                name: ["me", "you", "someone else"],
+                users: users.result,
                 urgency: ["low", "mid", "high"]
-            }))
-        })
-    Promise.all([newTicket])
-        .then(() => {
+            }));
             $('#sendNewTicket').on('click', submitForm);
-            $('.dropdown li').on('click', selectOption);
+            $('#select-engineer li a').on('click', selectOptionEngineer);
+            $('#select-urgency li a').on('click', selectOptionUrgency);
         })
 }
 
-function selectOption() {
-    // console.log($('.dropdown-toggle').dropdown());
-    let currentSelection = $(this).text();
-    $(this).parent().prev().text(currentSelection);
+function selectOptionEngineer() {
+    const currentSelection = $(this).text();
+    const dataUserId = $(this).attr('data-user-id');
+
+    $('#engineer').attr('data-user-id', dataUserId);
+    $('#engineer-text').text(currentSelection);
+}
+
+function selectOptionUrgency() {
+    const currentSelection = $(this).text();
+    $('#urgency-text').text(currentSelection);
 }
 
 function submitForm() {
@@ -33,14 +38,15 @@ function submitForm() {
         shortDescription: $('#shortDescription').val(),
         longDescription: $('#lognDescription').val(),
         date: new Date(),
-        engneer: $('#engineer').text(),
-        urgency: $('#urgency').text(),
+        engneer: $('#engineer').attr('data-user-id'),
+        urgency: $('#urgency-text').text(),
         comment: $('#comment').val()
     }
+    console.log(newTicket);
     data.sendNewTicket(newTicket)
-        .then(function (successObj) {
+        .then(function(successObj) {
             toastr.success('Ticket successfully filed.');
-        }, function (err) {
+        }, function(err) {
             toastr.error('Ticket not filed to database');
         })
     $('#main-content').text('');

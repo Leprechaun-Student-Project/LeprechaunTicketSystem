@@ -32,6 +32,10 @@ function login(username, pass) {
     });
 }
 
+function getUsers() {
+    return requester_JSON.get('/api/users', {});
+}
+
 /* NewTickets*/
 
 function sendNewTicket(ticketObj) {
@@ -73,6 +77,7 @@ function get_Tickets_Numb() {
 export {
     register,
     login,
+    getUsers,
     sendNewTicket,
     get_Tickets_Range,
     get_Tickets_Numb

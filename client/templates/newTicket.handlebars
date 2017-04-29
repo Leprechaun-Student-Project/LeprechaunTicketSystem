@@ -11,23 +11,23 @@
         <textarea class="form-control" style="width:100%" rows="8%" placeholder="Full description" id="lognDescription"></textarea>
     </div>
     <div class="form-group row">
-       <textarea class="form-control" style="width:100%" rows="2%" placeholder="Additional comments" id="comment"></textarea>
+        <textarea class="form-control" style="width:100%" rows="2%" placeholder="Additional comments" id="comment"></textarea>
     </div>
-    <div class="dropdown form-group row">
-        <button class="btn btn-default dropdown-toggle" type="button" id="engineer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select Engineer<span class="caret"></span>
+    <div id="select-engineer" class="dropdown form-group row">
+        <button class="btn btn-default dropdown-toggle" type="button" id="engineer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-user-id='select'><span id="engineer-text">Select Engineer</span> <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-             {{#each name}}
-            <li><a>{{this}}</a></li>
+            {{#each users}}
+                <li><a data-user-id= {{username}}>{{frstname}} {{lsname}}</a></li>
             {{/each}}
         </ul>
     </div>
-    <div class="dropdown form-group row">
-        <button class="btn btn-default dropdown-toggle" type="button" id="urgency" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select Urgency<span class="caret"></span>
+    <div id="select-urgency" class="dropdown form-group row">
+        <button class="btn btn-default dropdown-toggle" type="button" id="urgency" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span id="urgency-text">Select Urgency</span> <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
             {{#each urgency}}
-            <li><a>{{this}}</a></li>
+                <li><a>{{this}}</a></li>
             {{/each}}
         </ul>
     </div>
