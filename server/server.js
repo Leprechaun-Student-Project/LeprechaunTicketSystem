@@ -13,6 +13,16 @@ express_App.use(express.static('../client'));
 
 express_App.use('/node_modules', express.static('node_modules'));
 
+const nodemailer = require('nodemailer');
+// create reusable transporter object using the default SMTP transport
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'leprechaunteam2017@gmail.com',
+        pass: 'brakmabrakma'
+    }
+});
+
 const MongoClient = require('mongodb').MongoClient;
 let db;
 
@@ -32,7 +42,7 @@ MongoClient.connect('mongodb://admin:admin@ds151060.mlab.com:51060/ticket-system
     express_App.put("/api/auth", usersController.put);
 
     // New ticket routes
-    const ticketController = require("../server/controllers/ticket-controller.js")(db);
+    const ticketController = require("../server/controllers/ticket-controller.js")(db, transporter);
     express_App.get("/api/newticket", ticketController.get);
     express_App.post("/api/newticket", ticketController.post);
     express_App.put("/api/newticket", ticketController.put);

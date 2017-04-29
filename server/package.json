@@ -21,6 +21,7 @@
     "lowdb": "^0.10.3",
     "mongodb": "^2.2.26",
     "navigo": "^4.6.2",
+    "nodemailer": "^4.0.1",
     "number-to-words": "1.2.3",
     "systemjs": "^0.20.12",
     "systemjs-plugin-babel": "0.0.21",

@@ -26,7 +26,7 @@ module.exports = function(db) {
             return false;
         }
 
-        var regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (!regexEmail.test(email)) {
             return false;
         }
@@ -35,7 +35,7 @@ module.exports = function(db) {
     }
 
     function generateAuthKey(uniquePart) {
-        var authKey = uniquePart,
+        let authKey = uniquePart,
             index;
         while (authKey.length < AUTH_KEY_LENGTH) {
             index = Math.floor(Math.random() * AUTH_KEY_CHARS.length);

@@ -1,4 +1,4 @@
-module.exports = function(db) {
+module.exports = function(db, transporter) {
 
     function get(req, res) {
         console.log('here1');
@@ -15,6 +15,9 @@ module.exports = function(db) {
             }
         }
         db.collection('tickets').insert(ticket);
+
+        sendEmail(ticket);
+
         res.status(201)
             .json({
                 result: {
@@ -25,6 +28,34 @@ module.exports = function(db) {
 
     function put(req, res) {
         console.log('here3');
+    }
+
+    function sendEmail(ticket) {
+        db.collection('users').findOne({
+            usernameToLower: ticket.engneer.toLowerCase()
+        }, function(e, dbUser) {
+            if (dbUser) {
+                const mailBody = `
+                Short Description: ${ticket.shortDescription}
+                Long Description: ${ticket.longDescription}
+                Date: ${ticket.date}
+                Urgency: ${ticket.urgency}
+                                  `;
+                let mailOptions = {
+                    from: '"Leprechaun Team" <noreply@leprechaun.com>',
+                    to: dbUser.email,
+                    subject: 'new ticket created',
+                    text: mailBody,
+                };
+
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    console.log('Message %s sent: %s', info.messageId, info.response);
+                });
+            }
+        });
     }
 
     return {
