@@ -3,6 +3,9 @@ import * as tickets from 'tickets';
 import * as newTicket from 'newticket';
 
 function initRouter() {
+
+    console.log("kgiwjeuqhugyuisahodiuhifjeoqpgwefdwqdfefq");
+
     const router = new Navigo(null, false);
 
     router
@@ -12,16 +15,14 @@ function initRouter() {
         .on('NewTicket', () => {
             newTicket.displayForm()
         })
-        .on('list/:page_Index', function(params) {
-            // on calling the rooth directory on server
-            // render the template listing the tickets and ..
+        .on('paginacalls/:page_Index', function(params) {
+            // paginator will call this when clicked and 
+            // navigo will take it to this function which will call the server
             tickets.display_Tickets(params.page_Index);
-            // .. display the naigavion through the pages
-            tickets.display_Pagination(params.page_Index);
         })
         .on('/', () => {
-            tickets.display_Tickets(+window.sessionStorage.getItem('current_page_index'));
-            tickets.display_Pagination(+window.sessionStorage.getItem('current_page_index'));
+            // this will be called when user clicks on bug-icon from other pages
+            tickets.display_Tickets(+(window.sessionStorage.getItem('current_page_index')));
         });
 }
 
