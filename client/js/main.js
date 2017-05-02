@@ -21,8 +21,11 @@ Handlebars.registerHelper("inc", function (value, options) {
     return parseInt(value) + 1;
 });
 
-window.alert("now you can fuckin use the UI!!!");
-
 initUserNavbar();
 
 router.initRouter();
+
+window.alert("Stuff loaded. Now you can use the UI!");
+
+// enable user clicks when the whole stuff is loaded and ready to go
+document.getElementById('no-click').style.display = 'none';
