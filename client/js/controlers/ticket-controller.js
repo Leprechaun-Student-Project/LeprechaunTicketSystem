@@ -53,10 +53,12 @@ function submitForm() {
         }
 
     }
+
     if (newTicket.engineer === 'select') {
         toastr.error("Please select Enigneer!");
         return;
     }
+
     if (newTicket.urgency === 'Select Urgency') {
         toastr.error("Please select Urgency status!");
         return;

@@ -4,18 +4,25 @@ module.exports = function (db, transporter) {
         console.log('here1');
     }
 
-    function* idGenerator(lastIDinDB){
-        let id;
-        if(lastIDinDB){
-            id=lastIDinDB;
+    function* idGenerator(lastIDinDB) {
+        let id = 0;
+        if (lastIDinDB) {
+            id = lastIDinDB;
         }
-        yield id++;
+        while (true) {
+            yield id++;
+
+        }
     }
-    
+    let id;
+    db.collection('tickets').count().then(function (totalTicketsCount) {
+        id = idGenerator(totalTicketsCount + 1);
+    })
+
     function post(req, res) {
         let ticket = req.body;
         let status = true;
-       
+
         for (let keys in ticket) {
             if (ticket[keys].match(/([<>&])/gm)) {
                 status = false;
@@ -29,7 +36,7 @@ module.exports = function (db, transporter) {
                 return;
             }
         }
-      if (ticket.engineer === 'select') {
+        if (ticket.engineer === 'select') {
             status = false;
             res.status(401)
                 .json("Please select enigneer!");
@@ -41,6 +48,8 @@ module.exports = function (db, transporter) {
                 .json("Please select urgency status!");
             return;
         }
+        ticket.id = id.next().value;
+
         if (status) {
             db.collection('tickets').insert(ticket);
             sendEmail(ticket);
