@@ -68,9 +68,9 @@ MongoClient.connect('mongodb://admin:admin@ds151060.mlab.com:51060/ticket-system
         express_App.post("/listlength", listing_Controller.post_For_Length);
 
         //popover
-     //   const popoverController = require("../server/controllers/popover-controller.js")(db);
+        const popoverController = require("../server/controllers/popover-controller.js")(db);
        // express_App.post("/api/popoverin", popoverController.post);
-        //express_App.get("/api/popover", popoverController.get);
+        express_App.get("/api/popover", popoverController.get);
 
         // Start the server
         const port = 3000;
