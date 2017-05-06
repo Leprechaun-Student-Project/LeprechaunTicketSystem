@@ -1,4 +1,4 @@
-module.exports = function (db) {
+module.exports = function(db) {
 
     function get(req, res) {
         console.log(req.headers.inputvalue);
@@ -9,22 +9,16 @@ module.exports = function (db) {
                 .json('Invalid input value');
             return;
         }
-        let resu=[];
-        let ids = db.collection('tickets').find().toArray(function (e, ticketsList) {
-            let tickets=ticketsList.map( (ticket,index)=>{ticket.id;} )
-            console.log(tickets.join(", "));
-            resu=tickets.slice();
-        });
-        console.log(resu);
-        console.log()
-        //console.log(ids);
-        res.status(201)
-            .json({
-                result: {
-                    status: 'success'
-                }
-            });
 
+        db.collection('tickets').find().toArray(function(e, ticketsList) {
+            const tickets = ticketsList.map(t => t.id);
+            res.status(201)
+                .json({
+                    result: {
+                        tickets: tickets
+                    }
+                });
+        });
     }
 
     return {
