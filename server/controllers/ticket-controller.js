@@ -1,7 +1,35 @@
-module.exports = function (db, transporter) {
+module.exports = function(db, transporter) {
 
     function get(req, res) {
-        console.log('here1');
+        console.log('here');
+        const user = req.user;
+        if (!user) {
+            res.status(400)
+                .json('Invalid user');
+            return;
+        }
+        const ticketID = req.headers['ticket'];
+        if (!ticketID) {
+            res.status(400)
+                .json('Invalid ticket id');
+            return;
+        }
+        db.collection('tickets').findOne({
+            'id': ticketID
+        }, function(e, ticket) {
+            if (!ticket) {
+                res.status(404)
+                    .json('Ticket not found');
+                return;
+            }
+
+            res.status(201)
+                .json({
+                    result: {
+                        ticket
+                    }
+                });
+        });
     }
 
     function post(req, res) {
@@ -12,12 +40,12 @@ module.exports = function (db, transporter) {
             if (ticket[k].match(/([<>&])./gm)) {
                 status = false;
                 res.status(401)
-                    .json("You can't use symbols like < > and & in field "+k);
+                    .json("You can't use symbols like < > and & in field " + k);
                 return;
-            }else if(ticket[k]===""||ticket[k]===undefined){
+            } else if (ticket[k] === "" || ticket[k] === undefined) {
                 status = false;
                 res.status(401)
-                    .json("You can't have empty filed "+k);
+                    .json("You can't have empty filed " + k);
                 return;
             }
         }
@@ -43,7 +71,7 @@ module.exports = function (db, transporter) {
     function sendEmail(ticket) {
         db.collection('users').findOne({
             usernameToLower: ticket.engneer.toLowerCase()
-        }, function (e, dbUser) {
+        }, function(e, dbUser) {
             if (dbUser) {
                 const mailBody = `
                 Short Description: ${ticket.shortDescription}

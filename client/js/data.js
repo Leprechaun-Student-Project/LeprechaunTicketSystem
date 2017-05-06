@@ -92,6 +92,16 @@ function get_Tickets_Numb() {
         });
 }
 
+function getTicket(ticketId) {
+    const options = {
+        headers: {
+            'x-auth-key': localStorage.getItem(AUTH_KEY_LOCAL_STORAGE_KEY),
+            'ticket': ticketId
+        }
+    };
+    return requester_JSON.get('api/ticket', options)
+}
+
 export {
     register,
     login,
@@ -100,5 +110,6 @@ export {
     getLoggedInUser,
     sendNewTicket,
     get_Tickets_Range,
-    get_Tickets_Numb
+    get_Tickets_Numb,
+    getTicket
 }

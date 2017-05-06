@@ -20,6 +20,15 @@ function displayCreateTicketForm() {
         })
 }
 
+function displayUpdateTicketForm(params) {
+    Promise.all([data.getTicket(params.id)])
+        .then(([ticket]) => {
+            console.log(ticket);
+        }, () => {
+            $('#main-content').html('Error');
+        })
+}
+
 function selectOptionEngineer() {
     const currentSelection = $(this).text();
     const dataUserId = $(this).attr('data-user-id');
@@ -34,8 +43,8 @@ function selectOptionUrgency() {
 }
 
 function submitForm() {
-   let newTicket = {
-       //
+    let newTicket = {
+        //
         user: $('#userName').text(),
         shortDescription: $('#shortDescription').val(),
         longDescription: $('#lognDescription').val(),
@@ -45,15 +54,15 @@ function submitForm() {
         //comment: $('#comment').val()
     }
     console.log(newTicket);
-    for(let keys in newTicket){
+    for (let keys in newTicket) {
         console.log(keys);
-        if(newTicket[keys].match(/([<>&])./gm)){
+        if (newTicket[keys].match(/([<>&])./gm)) {
             console.log(newTicket[keys]);
-             toastr.error("You can't use symbols <> and & in "+keys);
-             return;
-        }else if(newTicket[keys]===""||newTicket[keys]===undefined){
-             toastr.error("You can't have empty filed  "+keys);
-             return;
+            toastr.error("You can't use symbols <> and & in " + keys);
+            return;
+        } else if (newTicket[keys] === "" || newTicket[keys] === undefined) {
+            toastr.error("You can't have empty filed  " + keys);
+            return;
         }
 
     }
@@ -84,7 +93,21 @@ function submitForm() {
     document.location.href = '#';
 }
 
+function initQuickSerachEvent() {
+    $('#quick-serach-button').on('click', function() {
+        const input = $('#quick-serach-input');
+        if (!input.val()) {
+            toastr.error("Quick Serach is empty");
+        } else {
+            document.location.href = '#/ticket/' + input.val();
+            input.val('');
+        }
+    });
+}
+
 
 export {
-    displayCreateTicketForm
+    displayCreateTicketForm,
+    displayUpdateTicketForm,
+    initQuickSerachEvent
 }
