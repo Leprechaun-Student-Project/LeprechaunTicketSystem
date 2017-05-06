@@ -1,7 +1,7 @@
 import * as templates from 'templates';
 import * as data from 'data';
 
-function displayForm() {
+function displayCreateTicketForm() {
 
     Promise.all([templates.get('newTicket'), data.getUsers()])
         .then(([template, users]) => {
@@ -85,5 +85,5 @@ function submitForm() {
 
 
 export {
-    displayForm
+    displayCreateTicketForm
 }
