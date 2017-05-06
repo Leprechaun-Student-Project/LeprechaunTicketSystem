@@ -33,6 +33,9 @@ MongoClient.connect('mongodb://admin:admin@ds151060.mlab.com:51060/ticket-system
 
     db = database;
 
+    console.log(db.collection('tickets').count().then(function(c){
+      return c;
+    }));
     require('./utils/authorize-user')(express_App, db);
 
     // User routes
