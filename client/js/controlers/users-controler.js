@@ -4,11 +4,6 @@ import * as data from 'data';
 const USERNAME_LOCAL_STORAGE_KEY = 'signed-in-user-username',
     AUTH_KEY_LOCAL_STORAGE_KEY = 'signed-in-user-auth-key';
 
-//initiates bootstrap popover for the search input 
-$(function () {
-  $('[data-toggle="popover"]').popover({content:"my content",trigger:'focus'})
-});
-
 function validateUserData(inputData) {
     const {
         username,
