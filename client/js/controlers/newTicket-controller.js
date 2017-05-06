@@ -34,16 +34,44 @@ function selectOptionUrgency() {
 }
 
 function submitForm() {
-    // console.log($('#shortDecription'));
-    let newTicket = {
+   let newTicket = {
         user: $('#userName').text(),
         shortDescription: $('#shortDescription').val(),
         longDescription: $('#lognDescription').val(),
         date: new Date(),
         engneer: $('#engineer').attr('data-user-id'),
         urgency: $('#urgency-text').text(),
-        comment: $('#comment').val()
+        //comment: $('#comment').val()
     }
+    console.log(newTicket);
+    for(let keys in newTicket){
+        console.log(keys);
+        if(newTicket[keys].match(/([<>&])./gm)){
+            console.log(newTicket[keys]);
+             toastr.error("You can't use symbols <> and & in "+keys);
+             return;
+        }else if(newTicket[keys]===""||newTicket[keys]===undefined){
+             toastr.error("You can't have empty filed  "+keys);
+             return;
+        }
+
+    }
+    /*
+ for (let k in ticket) {
+            console.log("key:" + k + " value:" + ticket[k]);
+            if (ticket[k].match(/([<>&])./gm)) {
+                status = false;
+                res.status(401)
+                    .json("You can't use symbols like < > and & in field "+k);
+                return;
+            }else if(ticket[k]===""||ticket[k]===undefined){
+                status = false;
+                res.status(401)
+                    .json("You can't have empty filed "+k);
+                return;
+            }
+        }
+    */
 
     data.sendNewTicket(newTicket)
         .then(function(successObj) {
