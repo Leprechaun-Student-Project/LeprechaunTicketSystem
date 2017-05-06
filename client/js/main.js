@@ -5,6 +5,9 @@ import {
 import {
     initQuickSerachEvent
 } from 'ticket';
+import{
+    initiatePopover
+} from 'popover'
 
 // Save initial tickets page offset to sessionStorage
 window.sessionStorage.setItem('current_page_index', '1'); // one based
@@ -26,7 +29,7 @@ Handlebars.registerHelper("inc", function(value, options) {
     return parseInt(value) + 1;
 });
 
-$('[data-toggle="popover"]').popover({
+/*$('[data-toggle="popover"]').popover({
     html: true,
     content: ""
 });
@@ -35,7 +38,8 @@ $('#quick-serach-input').keyup(function() {
     const currentInput = ($('#quick-serach-input').val());
     popover.options.content = currentInput;
     $('[data-toggle="popover"]').popover('show');
-});
+});*/
+initiatePopover();
 
 initUserNavbar();
 
