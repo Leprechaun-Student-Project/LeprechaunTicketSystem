@@ -21,10 +21,7 @@ module.exports = function (db, transporter) {
                 return;
             }
         }
-        console.log("before if");
-        console.log(ticket.engineer);
-        console.log(ticket.urgency);
-        if (ticket.engineer === 'select') {
+      if (ticket.engineer === 'select') {
             status = false;
             res.status(401)
                 .json("Please select enigneer!");
