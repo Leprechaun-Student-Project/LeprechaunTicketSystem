@@ -1,6 +1,6 @@
 import * as users from 'users';
 import * as tickets from 'tickets';
-import * as newTicket from 'newticket';
+import * as ticket from 'ticket';
 
 function initRouter() {
 
@@ -11,7 +11,7 @@ function initRouter() {
         .on('login', () => users.loginForm())
         .on('logout', () => users.logout())
         .on('NewTicket', () => {
-            newTicket.displayForm()
+            ticket.displayCreateTicketForm()
         })
         .on('paginacalls/:page_Index', function(params) {
             // paginator will call this when clicked and
