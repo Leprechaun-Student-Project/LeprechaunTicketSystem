@@ -7,26 +7,38 @@ module.exports = function (db, transporter) {
     function post(req, res) {
         let ticket = req.body;
         let status = true;
-        for (let k in ticket) {
-            console.log("key:" + k + " value:" + ticket[k]);
-            if (ticket[k].match(/([<>&])/gm)) {
+       
+        for (let keys in ticket) {
+            if (ticket[keys].match(/([<>&])/gm)) {
                 status = false;
                 res.status(401)
-                    .json("You can't use symbols like < > and & in field "+k);
+                    .json("You can't use symbols like < > and & in field " + keys);
                 return;
-            }else if(ticket[k]===""||ticket[k]===undefined){
+            } else if ((ticket[keys] === "" || ticket[keys] === undefined) && keys != "comment") {
                 status = false;
                 res.status(401)
-                    .json("You can't have empty filed "+k);
+                    .json("You can't have empty filed " + keys);
                 return;
             }
         }
+        console.log("before if");
+        console.log(ticket.engineer);
+        console.log(ticket.urgency);
+        if (ticket.engineer === 'select') {
+            status = false;
+            res.status(401)
+                .json("Please select enigneer!");
+            return;
+        }
+        if (ticket.urgency === 'Select Urgency') {
+            status = false;
+            res.status(401)
+                .json("Please select urgency status!");
+            return;
+        }
         if (status) {
-            console.log(ticket);
             db.collection('tickets').insert(ticket);
-
             sendEmail(ticket);
-
             res.status(201)
                 .json({
                     result: {
@@ -42,7 +54,7 @@ module.exports = function (db, transporter) {
 
     function sendEmail(ticket) {
         db.collection('users').findOne({
-            usernameToLower: ticket.engneer.toLowerCase()
+            usernameToLower: ticket.engineer.toLowerCase()
         }, function (e, dbUser) {
             if (dbUser) {
                 const mailBody = `

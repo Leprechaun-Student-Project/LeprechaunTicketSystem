@@ -35,37 +35,33 @@ function selectOptionUrgency() {
 
 function submitForm() {
     let newTicket = {
-        //
         user: $('#userName').text(),
         shortDescription: $('#shortDescription').val(),
         longDescription: $('#lognDescription').val(),
-        date: new Date()+"",
-        engneer: $('#engineer').attr('data-user-id')+"",
-        urgency: $('#urgency-text').text()+"",
+        date: new Date() + "",
+        engineer: $('#engineer').attr('data-user-id'),
+        urgency: $('#urgency-text').text(),
         comment: $('#comment').val()
     }
-    console.log(newTicket);
     for (let keys in newTicket) {
-        console.log(keys + ":" + newTicket[keys]);
         if (newTicket[keys].match(/([<>&])/gm)) {
-            console.log(newTicket[keys]);
             toastr.error("You can't use symbols <> and & in " + keys);
             return;
-        } else if (newTicket[keys] === "" || newTicket[keys] === undefined) {
+        } else if ((newTicket[keys] === "" || newTicket[keys] === undefined) && keys !== "comment") {
             toastr.error("You can't have empty filed  " + keys);
             return;
         }
 
     }
-    /*if(newTicket[engneer]==="select"){
-        toastr.error("Please select Engineer!");
+    if (newTicket.engineer === 'select') {
+        toastr.error("Please select Enigneer!");
         return;
     }
-    if(newTicket[urgency]==="select Urgency"){
-        toastr.error("Please select Urgency!");
+    if (newTicket.urgency === 'Select Urgency') {
+        toastr.error("Please select Urgency status!");
         return;
-    }*/
- 
+    }
+
     data.sendNewTicket(newTicket)
         .then(function (successObj) {
             toastr.success('Ticket successfully filed.');
@@ -75,7 +71,6 @@ function submitForm() {
     $('#main-content').text('');
     document.location.href = '#';
 }
-
 
 export {
     displayCreateTicketForm
