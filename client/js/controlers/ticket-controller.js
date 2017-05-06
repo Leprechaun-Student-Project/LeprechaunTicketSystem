@@ -35,6 +35,7 @@ function selectOptionUrgency() {
 
 function submitForm() {
    let newTicket = {
+       //
         user: $('#userName').text(),
         shortDescription: $('#shortDescription').val(),
         longDescription: $('#lognDescription').val(),
