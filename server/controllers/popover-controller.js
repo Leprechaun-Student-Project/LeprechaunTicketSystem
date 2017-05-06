@@ -15,11 +15,12 @@ module.exports = function (db) {
                     status: 'success'
                 }
             });*/
+
     }
-
-
-}
 
 return {
     get: get,
 }
+
+}
+
