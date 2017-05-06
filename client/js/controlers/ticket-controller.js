@@ -1,8 +1,6 @@
 import * as templates from 'templates';
 import * as data from 'data';
-import {
-    validateTicket
-} from 'validator';
+import { validateTicket } from 'validator';
 
 function displayCreateTicketForm() {
 
@@ -77,7 +75,7 @@ function submitForm() {
     if (validateTicket(newTicket)) {
         data.sendNewTicket(newTicket)
             .then(function(successObj) {
-                toastr.success('Ticket successfully filed.');
+                toastr.success(`Ticket ${successObj.result.ticketId} successfully filed.`);
                 $('#main-content').text('');
                 document.location.href = '#';
             }, function(err) {
