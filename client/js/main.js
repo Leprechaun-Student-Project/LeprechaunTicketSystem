@@ -26,10 +26,16 @@ Handlebars.registerHelper("inc", function (value, options) {
     return parseInt(value) + 1;
 });
 
-//Initiate popover for the search input
+$('[data-toggle="popover"]').popover({
+        content:counter
+    });
 $('#quick-serach-input').keyup(function () {
     let currentInput=($('#quick-serach-input').val());
-    $(this).popover({content: currentInput});
+    $('[data-toggle="popover"]').popover({
+        content:counter
+    });
+    console.log(counter);
+ 
     $('[data-toggle="popover"]').popover('show');
 
 })
