@@ -1,0 +1,44 @@
+<div class="container col-sm-10">
+    <div class="panel panel-default  form-group row ">
+        <div class="panel-title panel-heading">
+            <h3>File Ticket ID<span id="ticketID">{{ticket.id}}</span></h3><span id="userName">{{ticket.user}}</span>:{{ticket.date}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <textarea type="text" class="form-control" placeholder="Subject/short description" aria-describedby="basic-addon1" id="shortDescription">{{ticket.shortDescription}}</textarea>
+    </div>
+    <div class="form-group row">
+        <textarea class="form-control" style="width:100%" rows="8%" placeholder="Full description" id="lognDescription">{{ticket.longDescription}}</textarea>
+    </div>
+    <div id="select-status" class="dropdown form-group row">
+        <button class="btn btn-default dropdown-toggle" type="button" id="status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span id="status-text">{{ticket.status}}</span> <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            {{#each status}}
+                <li><a>{{this}}</a></li>
+            {{/each}}
+        </ul>
+    </div>
+    <div id="select-engineer" class="dropdown form-group row">
+        <button class="btn btn-default dropdown-toggle" type="button" id="engineer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-user-id= {{ticket.engineer}}><span id="engineer-text">{{frstname}} {{lsname}}</span> <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            {{#each users}}
+                <li><a data-user-id= {{username}}>{{frstname}} {{lsname}}</a></li>
+            {{/each}}
+        </ul>
+    </div>
+    <div id="select-urgency" class="dropdown form-group row">
+        <button class="btn btn-default dropdown-toggle" type="button" id="urgency" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span id="urgency-text">{{ticket.urgency}}</span> <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            {{#each urgency}}
+                <li><a>{{this}}</a></li>
+            {{/each}}
+        </ul>
+    </div>
+    <div class="form-group row">
+        <textarea class="form-control" style="width:100%" rows="2%" placeholder="Additional comments" id="comment"></textarea>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block " type="submit" id="updateTicket">Update Ticket</button>
+</div>

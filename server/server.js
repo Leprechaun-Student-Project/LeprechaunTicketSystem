@@ -58,9 +58,9 @@ MongoClient.connect('mongodb://admin:admin@ds151060.mlab.com:51060/ticket-system
         // New ticket routes
         const ticketController = require("../server/controllers/ticket-controller.js")(id, db, transporter);
         express_App.post("/api/newticket", ticketController.post);
-        express_App.put("/api/newticket", ticketController.put);
         //Update ticket
         express_App.get("/api/ticket", ticketController.get);
+        express_App.put("/api/updateTicket", ticketController.put);
 
         // Listing the tickets routine
         const listing_Controller = require("../server/controllers/listings-controller.js")(db);
