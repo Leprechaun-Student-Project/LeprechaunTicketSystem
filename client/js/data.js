@@ -117,6 +117,15 @@ function getTicket(ticketId) {
     return requester_JSON.get('api/ticket', options)
 }
 
+function getPopoverValue(inputValue){
+    const options={
+        headers:{
+            inputValue:inputValue
+        }
+    };
+    return requester_JSON.get('api/popover', options)
+
+}
 export {
     register,
     login,
@@ -127,5 +136,6 @@ export {
     updateTicket,
     get_Tickets_Range,
     get_Tickets_Numb,
-    getTicket
+    getTicket,
+    getPopoverValue
 }

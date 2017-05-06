@@ -15,6 +15,7 @@ SystemJS.config({
         'tickets': './js/controlers/display-tickets.js',
         'sigin': './js/controlers/signin-constroller.js',
         'ticket': './js/controlers/ticket-controller.js',
-        'validator': './js/utils/validator.js'
+        'validator': './js/utils/validator.js',
+        'popover':'./js/controlers/popover-constoller.js'
     }
 });
