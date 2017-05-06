@@ -88,6 +88,7 @@ function submitForm() {
 function updateTicket() {
     const ticket = {
         id: Number($('#ticketID').text()),
+        user: $('#userName').text(),
         shortDescription: $('#shortDescription').val(),
         longDescription: $('#lognDescription').val(),
         engineer: $('#engineer').attr('data-user-id'),

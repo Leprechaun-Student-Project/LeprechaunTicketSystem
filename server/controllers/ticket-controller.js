@@ -64,7 +64,7 @@ module.exports = function(idGenerator, db, transporter) {
 
         if (status) {
             db.collection('tickets').insert(ticket);
-            sendEmail(ticket);
+            sendEmail(ticket, 'engineer', 'new ticket created');
             res.status(201)
                 .json({
                     result: {
@@ -75,7 +75,29 @@ module.exports = function(idGenerator, db, transporter) {
     }
 
     function put(req, res) {
-        console.log(req.body);
+        const user = req.user;
+        const ticket = req.body;
+        if (!user) {
+            res.status(400)
+                .json('Invalid user');
+            return;
+        }
+
+        db.collection('tickets').update({
+            id: ticket.id
+        }, {
+            $set: {
+                shortDescription: ticket.shortDescription,
+                longDescription: ticket.longDescription,
+                engineer: ticket.engineer,
+                urgency: ticket.urgency,
+                status: ticket.status,
+                comment: ticket.comment
+            }
+        });
+
+        sendEmail(ticket, 'engineer', 'Ticket updated');
+        sendEmail(ticket,   'user', 'Ticket updated');
         res.status(201)
             .json({
                 result: {
@@ -84,21 +106,21 @@ module.exports = function(idGenerator, db, transporter) {
             });
     }
 
-    function sendEmail(ticket) {
+    function sendEmail(ticket, userType, subject) {
         db.collection('users').findOne({
-            usernameToLower: ticket.engineer.toLowerCase()
+            usernameToLower: ticket[userType].toLowerCase()
         }, function(e, dbUser) {
             if (dbUser) {
                 const mailBody = `
+                ID: ${ticket.id}
                 Short Description: ${ticket.shortDescription}
                 Long Description: ${ticket.longDescription}
-                Date: ${ticket.date}
                 Urgency: ${ticket.urgency}
                                   `;
                 let mailOptions = {
                     from: '"Leprechaun Team" <noreply@leprechaun.com>',
                     to: dbUser.email,
-                    subject: 'new ticket created',
+                    subject: subject,
                     text: mailBody,
                 };
 
