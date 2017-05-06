@@ -34,50 +34,42 @@ function selectOptionUrgency() {
 }
 
 function submitForm() {
-   let newTicket = {
-       //
+    let newTicket = {
+        //
         user: $('#userName').text(),
         shortDescription: $('#shortDescription').val(),
         longDescription: $('#lognDescription').val(),
-        date: new Date(),
-        engneer: $('#engineer').attr('data-user-id'),
-        urgency: $('#urgency-text').text(),
-        //comment: $('#comment').val()
+        date: new Date()+"",
+        engneer: $('#engineer').attr('data-user-id')+"",
+        urgency: $('#urgency-text').text()+"",
+        comment: $('#comment').val()
     }
     console.log(newTicket);
-    for(let keys in newTicket){
-        console.log(keys);
-        if(newTicket[keys].match(/([<>&])./gm)){
+    for (let keys in newTicket) {
+        console.log(keys + ":" + newTicket[keys]);
+        if (newTicket[keys].match(/([<>&])/gm)) {
             console.log(newTicket[keys]);
-             toastr.error("You can't use symbols <> and & in "+keys);
-             return;
-        }else if(newTicket[keys]===""||newTicket[keys]===undefined){
-             toastr.error("You can't have empty filed  "+keys);
-             return;
+            toastr.error("You can't use symbols <> and & in " + keys);
+            return;
+        } else if (newTicket[keys] === "" || newTicket[keys] === undefined) {
+            toastr.error("You can't have empty filed  " + keys);
+            return;
         }
 
     }
-    /*
- for (let k in ticket) {
-            console.log("key:" + k + " value:" + ticket[k]);
-            if (ticket[k].match(/([<>&])./gm)) {
-                status = false;
-                res.status(401)
-                    .json("You can't use symbols like < > and & in field "+k);
-                return;
-            }else if(ticket[k]===""||ticket[k]===undefined){
-                status = false;
-                res.status(401)
-                    .json("You can't have empty filed "+k);
-                return;
-            }
-        }
-    */
-
+    /*if(newTicket[engneer]==="select"){
+        toastr.error("Please select Engineer!");
+        return;
+    }
+    if(newTicket[urgency]==="select Urgency"){
+        toastr.error("Please select Urgency!");
+        return;
+    }*/
+ 
     data.sendNewTicket(newTicket)
-        .then(function(successObj) {
+        .then(function (successObj) {
             toastr.success('Ticket successfully filed.');
-        }, function(err) {
+        }, function (err) {
             toastr.error(err.responseJSON);
         })
     $('#main-content').text('');

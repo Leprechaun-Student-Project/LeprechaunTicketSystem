@@ -9,7 +9,7 @@ module.exports = function (db, transporter) {
         let status = true;
         for (let k in ticket) {
             console.log("key:" + k + " value:" + ticket[k]);
-            if (ticket[k].match(/([<>&])./gm)) {
+            if (ticket[k].match(/([<>&])/gm)) {
                 status = false;
                 res.status(401)
                     .json("You can't use symbols like < > and & in field "+k);
