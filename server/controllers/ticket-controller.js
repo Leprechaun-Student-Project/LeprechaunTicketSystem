@@ -4,6 +4,14 @@ module.exports = function (db, transporter) {
         console.log('here1');
     }
 
+    function* idGenerator(lastIDinDB){
+        let id;
+        if(lastIDinDB){
+            id=lastIDinDB;
+        }
+        yield id++;
+    }
+    
     function post(req, res) {
         let ticket = req.body;
         let status = true;
@@ -21,10 +29,7 @@ module.exports = function (db, transporter) {
                 return;
             }
         }
-        console.log("before if");
-        console.log(ticket.engineer);
-        console.log(ticket.urgency);
-        if (ticket.engineer === 'select') {
+      if (ticket.engineer === 'select') {
             status = false;
             res.status(401)
                 .json("Please select enigneer!");
