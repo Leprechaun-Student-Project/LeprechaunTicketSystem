@@ -1,6 +1,8 @@
 import * as templates from 'templates';
 import * as data from 'data';
-import { validateTicket } from 'validator';
+import {
+    validateTicket
+} from 'validator';
 
 function displayCreateTicketForm() {
 
@@ -69,8 +71,7 @@ function submitForm() {
         date: new Date() + "",
         engineer: $('#engineer').attr('data-user-id'),
         urgency: $('#urgency-text').text(),
-        status: "new",
-        comment: $('#comment').val()
+        status: "new"
     }
 
     if (validateTicket(newTicket)) {
@@ -93,8 +94,7 @@ function updateTicket() {
         longDescription: $('#lognDescription').val(),
         engineer: $('#engineer').attr('data-user-id'),
         urgency: $('#urgency-text').text(),
-        status: $('#status-text').text(),
-        comment: $('#comment').val()
+        status: $('#status-text').text()
     }
 
     if (validateTicket(ticket)) {

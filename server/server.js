@@ -44,7 +44,7 @@ MongoClient.connect('mongodb://admin:admin@ds151060.mlab.com:51060/ticket-system
     }
 
     let id;
-    db.collection('tickets').count().then(function (totalTicketsCount) {
+    db.collection('tickets').count().then(function(totalTicketsCount) {
         id = idGenerator(totalTicketsCount + 1);
 
         require('./utils/authorize-user')(express_App, db);
@@ -69,7 +69,7 @@ MongoClient.connect('mongodb://admin:admin@ds151060.mlab.com:51060/ticket-system
 
         //popover
         const popoverController = require("../server/controllers/popover-controller.js")(db);
-       // express_App.post("/api/popoverin", popoverController.post);
+        // express_App.post("/api/popoverin", popoverController.post);
         express_App.get("/api/popover", popoverController.get);
 
         // Start the server

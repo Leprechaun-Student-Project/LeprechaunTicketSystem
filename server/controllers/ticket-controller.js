@@ -13,15 +13,21 @@ module.exports = function(idGenerator, db, transporter) {
                 .json('Invalid ticket id');
             return;
         }
-        db.collection('tickets').findOne({
-            'id': ticketID | 0
-        }, function(e, ticket) {
+        db.collection('tickets').aggregate([{
+            $lookup: {
+                from: "comments",
+                localField: "id",
+                foreignField: "id",
+                as: "comments"
+            }
+        }]).toArray(function(e, TicketCollection) {
+            const id = ticketID | 0;
+            const ticket = TicketCollection.find(t => t.id === id);
             if (!ticket) {
                 res.status(404)
                     .json('Ticket not found');
                 return;
             }
-
             res.status(201)
                 .json({
                     result: {
@@ -91,13 +97,12 @@ module.exports = function(idGenerator, db, transporter) {
                 longDescription: ticket.longDescription,
                 engineer: ticket.engineer,
                 urgency: ticket.urgency,
-                status: ticket.status,
-                comment: ticket.comment
+                status: ticket.status
             }
         });
 
         sendEmail(ticket, 'engineer', 'Ticket updated');
-        sendEmail(ticket,   'user', 'Ticket updated');
+        sendEmail(ticket, 'user', 'Ticket updated');
         res.status(201)
             .json({
                 result: {
