@@ -42,14 +42,16 @@
             <div class="panel-heading panel-comments">
                 <h4>Comments</h4><button id="add-comment" type="button" class="btn btn-primary">Add Comment</button></div>
             <div class="panel-body">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-2 comment-col1"><span>userid</span><span>date</span></div>
-                            <div class="col-md-8">text comment</div>
+                {{#each ticket.comments}}
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3 comment-col1"><span>{{comment.user}}</span><span>{{comment.date}}</span></div>
+                                <div class="col-md-8">{{comment.text}}</div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                {{/each}}
             </div>
         </div>
     </div>

@@ -1,8 +1,6 @@
 import * as templates from 'templates';
 import * as data from 'data';
-import {
-    validateTicket
-} from 'validator';
+import { validateTicket } from 'validator';
 
 function displayCreateTicketForm() {
 
@@ -27,6 +25,7 @@ function displayUpdateTicketForm(params) {
     Promise.all([templates.get('updateTicket'), data.getTicket(params.id), data.getUsers()])
         .then(([template, ticketResponse, users]) => {
             const ticket = ticketResponse.result.ticket;
+            console.log(ticket);
             const engineer = users.result.find(u => u.username.toLowerCase() === ticket.engineer.toLowerCase());
             $('#main-content').html(template({
                 ticket: ticket,
@@ -77,7 +76,7 @@ function submitForm() {
     if (validateTicket(newTicket)) {
         data.sendNewTicket(newTicket)
             .then(function(successObj) {
-                toastr.success('Ticket successfully filed.');
+                toastr.success(`Ticket ${successObj.result.ticketId} successfully filed.`);
                 $('#main-content').text('');
                 document.location.href = '#';
             }, function(err) {

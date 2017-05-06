@@ -74,7 +74,8 @@ module.exports = function(idGenerator, db, transporter) {
             res.status(201)
                 .json({
                     result: {
-                        status: 'success'
+                        status: 'success',
+                        ticketId: ticket.id
                     }
                 });
         }
