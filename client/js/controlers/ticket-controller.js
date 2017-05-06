@@ -25,6 +25,7 @@ function displayUpdateTicketForm(params) {
     Promise.all([templates.get('updateTicket'), data.getTicket(params.id), data.getUsers()])
         .then(([template, ticketResponse, users]) => {
             const ticket = ticketResponse.result.ticket;
+            console.log(ticket);
             const engineer = users.result.find(u => u.username.toLowerCase() === ticket.engineer.toLowerCase());
             $('#main-content').html(template({
                 ticket: ticket,
