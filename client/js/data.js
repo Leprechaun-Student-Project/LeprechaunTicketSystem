@@ -68,6 +68,21 @@ function sendNewTicket(ticketObj) {
 
 }
 
+function updateTicket(ticket) {
+    const options = {
+        headers: {
+            'x-auth-key': localStorage.getItem(AUTH_KEY_LOCAL_STORAGE_KEY)
+        },
+        data: ticket
+    };
+    return requester_JSON.put('api/updateTicket', options)
+        .then(function(resp) {
+            return {
+                result: resp.result
+            }
+        });
+}
+
 // get the tickets from <-> to
 function get_Tickets_Range(page_Index, number_Of_tickets_Per_Page) {
     return requester_JSON.post('/listing/page' + page_Index + '/amount' + number_Of_tickets_Per_Page, {
@@ -109,6 +124,7 @@ export {
     isLoggedIn,
     getLoggedInUser,
     sendNewTicket,
+    updateTicket,
     get_Tickets_Range,
     get_Tickets_Numb,
     getTicket

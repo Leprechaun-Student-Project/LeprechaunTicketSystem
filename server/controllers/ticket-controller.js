@@ -1,7 +1,6 @@
 module.exports = function(idGenerator, db, transporter) {
 
     function get(req, res) {
-        console.log('here');
         const user = req.user;
         if (!user) {
             res.status(400)
@@ -15,7 +14,7 @@ module.exports = function(idGenerator, db, transporter) {
             return;
         }
         db.collection('tickets').findOne({
-            'id': ticketID
+            'id': ticketID | 0
         }, function(e, ticket) {
             if (!ticket) {
                 res.status(404)
@@ -76,7 +75,13 @@ module.exports = function(idGenerator, db, transporter) {
     }
 
     function put(req, res) {
-        console.log('here3');
+        console.log(req.body);
+        res.status(201)
+            .json({
+                result: {
+                    status: 'success'
+                }
+            });
     }
 
     function sendEmail(ticket) {

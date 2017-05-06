@@ -1,5 +1,6 @@
 import * as templates from 'templates';
 import * as data from 'data';
+import { validateTicket } from 'validator';
 
 function displayCreateTicketForm() {
 
@@ -21,12 +22,25 @@ function displayCreateTicketForm() {
 }
 
 function displayUpdateTicketForm(params) {
-    Promise.all([data.getTicket(params.id)])
-        .then(([ticket]) => {
-            console.log(ticket);
+    Promise.all([templates.get('updateTicket'), data.getTicket(params.id), data.getUsers()])
+        .then(([template, ticketResponse, users]) => {
+            const ticket = ticketResponse.result.ticket;
+            const engineer = users.result.find(u => u.username.toLowerCase() === ticket.engineer.toLowerCase());
+            $('#main-content').html(template({
+                ticket: ticket,
+                frstname: engineer.frstname,
+                lsname: engineer.lsname,
+                users: users.result,
+                urgency: ["low", "mid", "high"],
+                status: ["new", "in progress", "rejected", "resolved"]
+            }));
+            $('#updateTicket').on('click', updateTicket);
+            $('#select-engineer li a').on('click', selectOptionEngineer);
+            $('#select-urgency li a').on('click', selectOptionUrgency);
+            $('#select-status li a').on('click', selectOptionStatus);
         }, () => {
             $('#main-content').html('Error');
-        })
+        });
 }
 
 function selectOptionEngineer() {
@@ -42,45 +56,56 @@ function selectOptionUrgency() {
     $('#urgency-text').text(currentSelection);
 }
 
+function selectOptionStatus() {
+    const currentSelection = $(this).text();
+    $('#status-text').text(currentSelection);
+}
+
 function submitForm() {
-    let newTicket = {
+    const newTicket = {
         user: $('#userName').text(),
         shortDescription: $('#shortDescription').val(),
         longDescription: $('#lognDescription').val(),
         date: new Date() + "",
         engineer: $('#engineer').attr('data-user-id'),
         urgency: $('#urgency-text').text(),
+        status: "new",
         comment: $('#comment').val()
     }
-    for (let keys in newTicket) {
-        if (newTicket[keys].match(/([<>&])/gm)) {
-            toastr.error("You can't use symbols <> and & in " + keys);
-            return;
-        } else if ((newTicket[keys] === "" || newTicket[keys] === undefined) && keys !== "comment") {
-            toastr.error("You can't have empty filed  " + keys);
-            return;
-        }
 
+    if (validateTicket(newTicket)) {
+        data.sendNewTicket(newTicket)
+            .then(function(successObj) {
+                toastr.success('Ticket successfully filed.');
+                $('#main-content').text('');
+                document.location.href = '#';
+            }, function(err) {
+                toastr.error(err.responseJSON);
+            })
+    };
+}
+
+function updateTicket() {
+    const ticket = {
+        id: Number($('#ticketID').text()),
+        shortDescription: $('#shortDescription').val(),
+        longDescription: $('#lognDescription').val(),
+        engineer: $('#engineer').attr('data-user-id'),
+        urgency: $('#urgency-text').text(),
+        status: $('#status-text').text(),
+        comment: $('#comment').val()
     }
 
-    if (newTicket.engineer === 'select') {
-        toastr.error("Please select Enigneer!");
-        return;
-    }
-
-    if (newTicket.urgency === 'Select Urgency') {
-        toastr.error("Please select Urgency status!");
-        return;
-    }
-
-    data.sendNewTicket(newTicket)
-        .then(function(successObj) {
-            toastr.success('Ticket successfully filed.');
-        }, function(err) {
-            toastr.error(err.responseJSON);
-        })
-    $('#main-content').text('');
-    document.location.href = '#';
+    if (validateTicket(ticket)) {
+        data.updateTicket(ticket)
+            .then(function(successObj) {
+                toastr.success('Ticket successfully updated.');
+                $('#main-content').text('');
+                document.location.href = '#';
+            }, function(err) {
+                toastr.error(err.responseJSON);
+            })
+    };
 }
 
 function initQuickSerachEvent() {
