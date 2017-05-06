@@ -49,7 +49,7 @@ function submitForm() {
         .then(function(successObj) {
             toastr.success('Ticket successfully filed.');
         }, function(err) {
-            toastr.error('Ticket not filed to database');
+            toastr.error(err.responseJSON);
         })
     $('#main-content').text('');
     document.location.href = '#';

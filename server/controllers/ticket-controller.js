@@ -1,4 +1,4 @@
-module.exports = function(db, transporter) {
+module.exports = function (db, transporter) {
 
     function get(req, res) {
         console.log('here1');
@@ -6,24 +6,34 @@ module.exports = function(db, transporter) {
 
     function post(req, res) {
         let ticket = req.body;
-
+        let status = true;
         for (let k in ticket) {
+            console.log("key:" + k + " value:" + ticket[k]);
             if (ticket[k].match(/([<>&])./gm)) {
+                status = false;
                 res.status(401)
-                    .json("You can't symbols like < > and & in tickets!");
+                    .json("You can't use symbols like < > and & in field "+k);
+                return;
+            }else if(ticket[k]===""||ticket[k]===undefined){
+                status = false;
+                res.status(401)
+                    .json("You can't have empty filed "+k);
                 return;
             }
         }
-        db.collection('tickets').insert(ticket);
+        if (status) {
+            console.log(ticket);
+            db.collection('tickets').insert(ticket);
 
-        sendEmail(ticket);
+            sendEmail(ticket);
 
-        res.status(201)
-            .json({
-                result: {
-                    status: 'success'
-                }
-            });
+            res.status(201)
+                .json({
+                    result: {
+                        status: 'success'
+                    }
+                });
+        }
     }
 
     function put(req, res) {
@@ -33,7 +43,7 @@ module.exports = function(db, transporter) {
     function sendEmail(ticket) {
         db.collection('users').findOne({
             usernameToLower: ticket.engneer.toLowerCase()
-        }, function(e, dbUser) {
+        }, function (e, dbUser) {
             if (dbUser) {
                 const mailBody = `
                 Short Description: ${ticket.shortDescription}
