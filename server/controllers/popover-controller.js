@@ -9,12 +9,15 @@ module.exports = function (db) {
                 .json('Invalid input value');
             return;
         }
-        let ids=db.collection('tickets').find().map((ticket)=>{
-            return ticket.Cursor.topology.server.id
-        })
-        console.log(typeof ids);
-        console.log(Object.keys(ids));
-        console.log(ids);
+        let resu=[];
+        let ids = db.collection('tickets').find().toArray(function (e, ticketsList) {
+            let tickets=ticketsList.map( (ticket,index)=>{ticket.id;} )
+            console.log(tickets.join(", "));
+            resu=tickets.slice();
+        });
+        console.log(resu);
+        console.log()
+        //console.log(ids);
         res.status(201)
             .json({
                 result: {
