@@ -1,4 +1,4 @@
-module.exports = function(db, transporter) {
+module.exports = function(idGenerator, db, transporter) {
 
     function get(req, res) {
         console.log('here');
@@ -32,14 +32,6 @@ module.exports = function(db, transporter) {
         });
     }
 
-    function* idGenerator(lastIDinDB) {
-        let id;
-        if (lastIDinDB) {
-            id = lastIDinDB;
-        }
-        yield id++;
-    }
-
     function post(req, res) {
         let ticket = req.body;
         let status = true;
@@ -69,6 +61,8 @@ module.exports = function(db, transporter) {
                 .json("Please select urgency status!");
             return;
         }
+        ticket.id = idGenerator.next().value;
+
         if (status) {
             db.collection('tickets').insert(ticket);
             sendEmail(ticket);

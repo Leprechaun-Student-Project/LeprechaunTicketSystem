@@ -33,30 +33,42 @@ MongoClient.connect('mongodb://admin:admin@ds151060.mlab.com:51060/ticket-system
 
     db = database;
 
-    console.log(db.collection('tickets').count().then(function(c){
-      return c;
-    }));
-    require('./utils/authorize-user')(express_App, db);
+    function* idGenerator(lastIDinDB) {
+        let id = 0;
+        if (lastIDinDB) {
+            id = lastIDinDB;
+        }
+        while (true) {
+            yield id++;
+        }
+    }
 
-    // User routes
-    const usersController = require("../server/controllers/users-controller")(db);
-    express_App.get("/api/users", usersController.get);
-    express_App.post("/api/users", usersController.post);
-    express_App.put("/api/auth", usersController.put);
+    let id;
+    db.collection('tickets').count().then(function(totalTicketsCount) {
+        id = idGenerator(totalTicketsCount + 1);
 
-    // New ticket routes
-    const ticketController = require("../server/controllers/ticket-controller.js")(db, transporter);
-    express_App.post("/api/newticket", ticketController.post);
-    express_App.put("/api/newticket", ticketController.put);
-    //Update ticket
-    express_App.get("/api/ticket", ticketController.get);
+        require('./utils/authorize-user')(express_App, db);
 
-    // Listing the tickets routine
-    const listing_Controller = require("../server/controllers/listings-controller.js")(db);
-    express_App.post("/listing/page:page_Index/amount:number_Of_Pages", listing_Controller.post_For_Tickets);
-    express_App.post("/listlength", listing_Controller.post_For_Length);
+        // User routes
+        const usersController = require("../server/controllers/users-controller")(db);
+        express_App.get("/api/users", usersController.get);
+        express_App.post("/api/users", usersController.post);
+        express_App.put("/api/auth", usersController.put);
 
-    // Start the server
-    const port = 3000;
-    express_App.listen(port, () => console.log(`Server is running at http://localhost:${port}`));
-})
+        // New ticket routes
+        const ticketController = require("../server/controllers/ticket-controller.js")(id, db, transporter);
+        express_App.post("/api/newticket", ticketController.post);
+        express_App.put("/api/newticket", ticketController.put);
+        //Update ticket
+        express_App.get("/api/ticket", ticketController.get);
+
+        // Listing the tickets routine
+        const listing_Controller = require("../server/controllers/listings-controller.js")(db);
+        express_App.post("/listing/page:page_Index/amount:number_Of_Pages", listing_Controller.post_For_Tickets);
+        express_App.post("/listlength", listing_Controller.post_For_Length);
+
+        // Start the server
+        const port = 3000;
+        express_App.listen(port, () => console.log(`Server is running at http://localhost:${port}`));
+    });
+});
