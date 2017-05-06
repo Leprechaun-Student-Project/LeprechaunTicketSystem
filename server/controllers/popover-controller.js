@@ -1,26 +1,29 @@
-module.exports = function(db) {
+module.exports = function (db) {
 
     function get(req, res) {
-        console.log(req.headers.inputvalue);
-        const inputValue = req.headers.inputvalue;
-
-        if (!inputValue) {
+        const inputValue = req.headers.inputvalue || {};
+        try {
+            db.collection('tickets').find().toArray(function (e, ticketsList) {
+                const tickets = ticketsList.map(t => t.id.toString());
+                const result = [];
+                tickets.forEach(t => {
+                    if (t.indexOf(inputValue) >= 0) {
+                        result.push(t);
+                    }
+                })
+                res.status(201)
+                    .json({
+                        result: {
+                            tickets: result
+                        }
+                    });
+            });
+        } catch (err) {
             res.status(400)
                 .json('Invalid input value');
             return;
         }
-
-        db.collection('tickets').find().toArray(function(e, ticketsList) {
-            const tickets = ticketsList.map(t => t.id);
-            res.status(201)
-                .json({
-                    result: {
-                        tickets: tickets
-                    }
-                });
-        });
     }
-
     return {
         get: get,
     }

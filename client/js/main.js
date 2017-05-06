@@ -29,16 +29,6 @@ Handlebars.registerHelper("inc", function(value, options) {
     return parseInt(value) + 1;
 });
 
-/*$('[data-toggle="popover"]').popover({
-    html: true,
-    content: ""
-});
-$('#quick-serach-input').keyup(function() {
-    const popover = $('[data-toggle="popover"]').data('bs.popover');
-    const currentInput = ($('#quick-serach-input').val());
-    popover.options.content = currentInput;
-    $('[data-toggle="popover"]').popover('show');
-});*/
 initiatePopover();
 
 initUserNavbar();
