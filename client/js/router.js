@@ -4,8 +4,6 @@ import * as newTicket from 'newticket';
 
 function initRouter() {
 
-    console.log("kgiwjeuqhugyuisahodiuhifjeoqpgwefdwqdfefq");
-
     const router = new Navigo(null, false);
 
     router
@@ -16,7 +14,7 @@ function initRouter() {
             newTicket.displayForm()
         })
         .on('paginacalls/:page_Index', function(params) {
-            // paginator will call this when clicked and 
+            // paginator will call this when clicked and
             // navigo will take it to this function which will call the server
             tickets.display_Tickets(params.page_Index);
         })

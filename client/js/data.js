@@ -1,5 +1,8 @@
 import * as requester_JSON from 'json-requester';
 
+const USERNAME_LOCAL_STORAGE_KEY = 'signed-in-user-username',
+    AUTH_KEY_LOCAL_STORAGE_KEY = 'signed-in-user-auth-key';
+
 /* Users */
 
 function register(user) {
@@ -36,6 +39,21 @@ function getUsers() {
     return requester_JSON.get('/api/users', {});
 }
 
+function getLoggedInUser() {
+    if (isLoggedIn()) {
+        return localStorage.getItem(USERNAME_LOCAL_STORAGE_KEY)
+    } else {
+        return 'unknown';
+    }
+}
+
+function isLoggedIn() {
+    if (localStorage.getItem(AUTH_KEY_LOCAL_STORAGE_KEY)) {
+        return true;
+    } else {
+        return false;
+    }
+}
 /* NewTickets*/
 
 function sendNewTicket(ticketObj) {
@@ -78,6 +96,8 @@ export {
     register,
     login,
     getUsers,
+    isLoggedIn,
+    getLoggedInUser,
     sendNewTicket,
     get_Tickets_Range,
     get_Tickets_Numb

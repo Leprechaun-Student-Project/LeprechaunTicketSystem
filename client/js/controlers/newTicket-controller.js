@@ -7,7 +7,9 @@ function displayForm() {
         .then(([template, users]) => {
             let currentDate = new Date().toString().split(' ');
             currentDate = currentDate[1] + " " + currentDate[2] + " " + currentDate[3] + " " + currentDate[4];
+
             $('#main-content').html(template({
+                owner: data.getLoggedInUser(),
                 date: currentDate,
                 users: users.result,
                 urgency: ["low", "mid", "high"]
@@ -42,7 +44,7 @@ function submitForm() {
         urgency: $('#urgency-text').text(),
         comment: $('#comment').val()
     }
-    
+
     data.sendNewTicket(newTicket)
         .then(function(successObj) {
             toastr.success('Ticket successfully filed.');

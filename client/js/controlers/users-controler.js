@@ -129,16 +129,8 @@ function logout() {
     location.href = '#';
 }
 
-function isLoggedIn() {
-    if (localStorage.getItem(AUTH_KEY_LOCAL_STORAGE_KEY)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 function initUserNavbar() {
-    if (isLoggedIn()) {
+    if (data.isLoggedIn()) {
         $('#log-in').addClass('hidden');
         $('#log-out').removeClass('hidden');
         $('#nav-username').removeClass('hidden');
