@@ -63,13 +63,13 @@ MongoClient.connect('mongodb://admin:admin@ds151060.mlab.com:51060/ticket-system
         express_App.put("/api/updateTicket", ticketController.put);
 
         // Listing the tickets routine
-        const listing_Controller = require("../server/controllers/listings-controller.js")(db);
-        express_App.post("/listing/page:page_Index/amount:number_Of_Pages", listing_Controller.post_For_Tickets);
-        express_App.post("/listlength", listing_Controller.post_For_Length);
+        const listingController = require("../server/controllers/listings-controller.js")(db);
+        express_App.get("/api/tickets", listingController.getTickets);
+        express_App.get("/api/ticketsCount", listingController.getTicketsCont);
 
         //popover
         const popoverController = require("../server/controllers/popover-controller.js")(db);
-        
+
         express_App.get("/api/popover", popoverController.get);
 
         // Start the server

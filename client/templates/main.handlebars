@@ -3,11 +3,11 @@
         <tr>
             <th>
             </th>
-             <th class="sort">
+            <th class="sort">
                 <span class="sorted"></span> ID
             </th>
-           
-             <th class="sort">
+
+            <th class="sort">
                 <span class="sorted"></span> Start Date
             </th>
             <th class="sort">
@@ -19,47 +19,46 @@
             <th class="sort">
                 <span class="sorted"></span> Status
             </th>
-            
+
             <th class="sort">
                 <span class="sorted"></span> Urgency
             </th>
-            
+
             <th class="sort">
                 <span class="sorted"></span> Short Description
             </th>
         </tr>
     </thead>
     <tbody>
-        {{#each ticket}}
-        <tr id="{{this.id}}">
-            <td>
-                <a class="plus glyphicon glyphicon-plus" aria-hidden="true" role="button" data-toggle="collapse" href="#description{{this.id}}"
-                    aria-expanded="false" aria-controls="description{{this.id}}"></td>
+        {{#each tickets}}
+            <tr id="{{this.id}}">
+                <td>
+                    <a class="plus glyphicon glyphicon-plus" aria-hidden="true" role="button" data-toggle="collapse" href="#description{{this.id}}" aria-expanded="false" aria-controls="description{{this.id}}"></td>
 
-            <td class="id"><a href="#/ticket/{{this.id}}">{{this.id}}</a>
-            </td>
-            <td class="date">{{this.date}}
-            </td>
-            <td class="engineer">{{this.engineer}}
-            </td>
-            <td class="creator">{{this.user}}
-            </td>
-            <td class="status">{{this.status}}
-            </td>
-            <td class="urgency">{{this.urgency}}
-            </td>
-            <td class="shortDescription">{{this.shortDescription}}
-            </td>
-            <tr>
-                <td colspan="9">
-                    <div class="collapse" id="description{{this.id}}">
-                        <div class="well">
-                            {{this.longDescription}}
-                        </div>
-                    </div>
+                <td class="id"><a href="#/ticket/{{this.id}}">{{this.id}}</a>
+                </td>
+                <td class="date">{{this.date}}
+                </td>
+                <td class="engineer">{{this.engineer}}
+                </td>
+                <td class="creator">{{this.user}}
+                </td>
+                <td class="status">{{this.status}}
+                </td>
+                <td class="urgency">{{this.urgency}}
+                </td>
+                <td class="shortDescription">{{this.shortDescription}}
                 </td>
                 <tr>
-                </tr>
-                {{/each}}
+                    <td colspan="9">
+                        <div class="collapse" id="description{{this.id}}">
+                            <div class="well">
+                                {{this.longDescription}}
+                            </div>
+                        </div>
+                    </td>
+                    <tr>
+                    </tr>
+        {{/each}}
     </tbody>
 </table>

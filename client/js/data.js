@@ -1,7 +1,10 @@
 import * as requester_JSON from 'json-requester';
 
 const USERNAME_LOCAL_STORAGE_KEY = 'signed-in-user-username',
-    AUTH_KEY_LOCAL_STORAGE_KEY = 'signed-in-user-auth-key';
+    AUTH_KEY_LOCAL_STORAGE_KEY = 'signed-in-user-auth-key',
+    PAGE_INDEX_HEADER = 'page',
+    NUMBER_PER_PAGE_HEADER = 'number-per-page',
+    MAX_TICKET_PER_PAGE = 10;
 
 /* Users */
 
@@ -83,23 +86,18 @@ function updateTicket(ticket) {
         });
 }
 
-// get the tickets from <-> to
-function get_Tickets_Range(page_Index, number_Of_tickets_Per_Page) {
-    return requester_JSON.post('/listing/page' + page_Index + '/amount' + number_Of_tickets_Per_Page, {
-
-        })
-        .then(function(resp) {
-            return {
-                result: resp.result
-            }
-        });
+function getTicketsRange(page) {
+    const headers = {};
+    headers[PAGE_INDEX_HEADER] = page;
+    headers[NUMBER_PER_PAGE_HEADER] = MAX_TICKET_PER_PAGE;
+    const options = {
+        headers: headers
+    };
+    return requester_JSON.get('api/tickets', options);
 }
 
-// get the total amount of tickets
-function get_Tickets_Numb() {
-    return requester_JSON.post('/listlength', {
-
-        })
+function getTicketsCount() {
+    return requester_JSON.get('api/ticketsCount', {})
         .then(function(resp) {
             return {
                 result: resp.result
@@ -117,14 +115,30 @@ function getTicket(ticketId) {
     return requester_JSON.get('api/ticket', options)
 }
 
-function getPopoverValue(inputValue){
-    const options={
-        headers:{
-            inputValue:inputValue
+function getPopoverValue(inputValue) {
+    const options = {
+        headers: {
+            inputValue: inputValue
         }
     };
     return requester_JSON.get('api/popover', options)
+}
 
+function splitQueryParameters(query) {
+    const keyValPairs = [];
+    const params = {};
+
+    if (query.length) {
+        const keyValPairs = query.split('&');
+        for (const pairNum in keyValPairs) {
+            const key = keyValPairs[pairNum].split('=')[0];
+            if (!key.length) continue;
+            if (typeof params[key] === 'undefined')
+                params[key] = [];
+            params[key] = keyValPairs[pairNum].split('=')[1];
+        }
+    }
+    return params;
 }
 export {
     register,
@@ -134,8 +148,9 @@ export {
     getLoggedInUser,
     sendNewTicket,
     updateTicket,
-    get_Tickets_Range,
-    get_Tickets_Numb,
+    getTicketsRange,
+    getTicketsCount,
     getTicket,
-    getPopoverValue
+    getPopoverValue,
+    splitQueryParameters
 }
