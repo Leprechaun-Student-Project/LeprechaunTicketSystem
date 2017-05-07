@@ -1,6 +1,8 @@
 import * as templates from 'templates';
 import * as data from 'data';
-import { validateTicket } from 'validator';
+import {
+    validateTicket
+} from 'validator';
 
 function displayCreateTicketForm() {
 
@@ -38,6 +40,8 @@ function displayUpdateTicketForm(params) {
             $('#select-engineer li a').on('click', selectOptionEngineer);
             $('#select-urgency li a').on('click', selectOptionUrgency);
             $('#select-status li a').on('click', selectOptionStatus);
+            $('#add-comment').on('click', addComment);
+            $('.close-comment').on('click', closeComment);
         }, () => {
             $('#main-content').html('');
             const img = $('<img>');
@@ -62,6 +66,29 @@ function selectOptionUrgency() {
 function selectOptionStatus() {
     const currentSelection = $(this).text();
     $('#status-text').text(currentSelection);
+}
+
+function addComment() {
+    const text = $('#comment-text').val();
+    $('#comment-text').val('');
+    let currentDate = new Date().toString().split(' ');
+    currentDate = currentDate[1] + " " + currentDate[2] + " " + currentDate[3] + " " + currentDate[4];
+    const user = data.getLoggedInUser();
+    const comment = {
+        user: user,
+        date: currentDate,
+        text: text
+    }
+    templates.get('newCommentRow')
+        .then(function(template) {
+            $('#comments-panel').append(template(comment));
+        });
+    $('#comment').modal('hide')
+}
+
+function closeComment() {
+    $('#comment-text').val('');
+    $('#comment').modal('hide')
 }
 
 function submitForm() {

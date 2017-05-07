@@ -40,8 +40,27 @@
     <div class="form-group row">
         <div class="panel panel-default">
             <div class="panel-heading panel-comments">
-                <h4>Comments</h4><button id="add-comment" type="button" class="btn btn-primary">Add Comment</button></div>
-            <div class="panel-body">
+                <h4>Comments</h4><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#comment">Add Comment</button></div>
+            <!-- Modal -->
+            <div class="modal fade" id="comment" tabindex="-1" role="dialog" aria-labelledby="comment-label">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close close-comment"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="comment-label">Add Comment</h4>
+                        </div>
+                        <div class="modal-body">
+                            <textarea class="form-control" rows="5" id="comment-text"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default close-comment">Close</button>
+                            <button id="add-comment" type="button" class="btn btn-default">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Modal -->
+            <div id="comments-panel" class="panel-body">
                 {{#each ticket.comments}}
                     <div class="panel panel-default">
                         <div class="panel-body">
