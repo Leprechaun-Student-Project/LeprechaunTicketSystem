@@ -7,11 +7,16 @@ function displayTickets(params, query) {
         const queryParams = data.splitQueryParameters(query);
         page = queryParams['page'] || 1;
     }
-    Promise.all([templates.get('main'), data.getTicketsRange(page)])
-        .then(([mainTemplate, tickets]) => {
-            $('#main-content').html(mainTemplate(tickets));
+    Promise.all([templates.get('main'), data.getTicketsRange(page), templates.get('pagination'),data.getTicketsCount()])
+        .then(([mainTemplate, tickets, pagination,numberOfPages]) => {
+            $('#main-content')
+                .html(mainTemplate(tickets))
+                .append(pagination({
+                    page: ["1", "2", "..", "7", "8"]
+                }));
             $('.plus').on('click', changeGliph);
             $('.sort').on('click', changeSort);
+            console.log(numberOfPages.result);
         });
 }
 
