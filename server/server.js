@@ -34,9 +34,9 @@ MongoClient.connect('mongodb://admin:admin@ds151060.mlab.com:51060/ticket-system
     db = database;
 
     function* idGenerator(lastIDinDB) {
-        let id = 0;
+        let id = 1000;
         if (lastIDinDB) {
-            id = lastIDinDB;
+            id = lastIDinDB+1000;
         }
         while (true) {
             yield id++;
