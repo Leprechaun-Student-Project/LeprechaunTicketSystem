@@ -1,6 +1,6 @@
 function validateTicket(ticket) {
     for (let keys in ticket) {
-        if (keys !== "id") {
+        if (keys !== "id" && keys !== "comments") {
             if (ticket[keys].match(/([<>&])/gm)) {
                 toastr.error("You can't use symbols <> and & in " + keys);
                 return false;

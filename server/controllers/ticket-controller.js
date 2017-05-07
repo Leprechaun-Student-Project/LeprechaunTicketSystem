@@ -102,6 +102,14 @@ module.exports = function(idGenerator, db, transporter) {
             }
         });
 
+        ticket.comments.forEach(function(comment) {
+            const element = {
+                id: ticket.id,
+                comment: comment
+            };
+            db.collection('comments').insert(element);
+        });
+
         sendEmail(ticket, 'engineer', 'Ticket updated');
         sendEmail(ticket, 'user', 'Ticket updated');
         res.status(201)
