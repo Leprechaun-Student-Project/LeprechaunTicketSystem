@@ -1,6 +1,8 @@
 import * as templates from 'templates';
 import * as data from 'data';
-import { validateTicket } from 'validator';
+import {
+    validateTicket
+} from 'validator';
 
 function displayCreateTicketForm() {
 
@@ -78,7 +80,7 @@ function addComment() {
         text: text
     }
     templates.get('newCommentRow')
-        .then(function(template) {
+        .then(function (template) {
             $('#comments-panel').append(template(comment));
         });
     $('#comment').modal('hide')
@@ -90,11 +92,12 @@ function closeComment() {
 }
 
 function submitForm() {
+    let currentDate = new Date().toString().split(' ');
     const newTicket = {
         user: $('#userName').text(),
         shortDescription: $('#shortDescription').val(),
         longDescription: $('#lognDescription').val(),
-        date: new Date() + "",
+        date: currentDate[1] + " " + currentDate[2] + " " + currentDate[3] + " " + currentDate[4],
         engineer: $('#engineer').attr('data-user-id'),
         urgency: $('#urgency-text').text(),
         status: "new"
@@ -102,11 +105,11 @@ function submitForm() {
 
     if (validateTicket(newTicket)) {
         data.sendNewTicket(newTicket)
-            .then(function(successObj) {
+            .then(function (successObj) {
                 toastr.success(`Ticket ${successObj.result.ticketId} successfully filed.`);
                 $('#main-content').text('');
                 document.location.href = '#';
-            }, function(err) {
+            }, function (err) {
                 toastr.error(err.responseJSON);
             })
     };
@@ -127,11 +130,11 @@ function updateTicket() {
 
     if (validateTicket(ticket)) {
         data.updateTicket(ticket)
-            .then(function(successObj) {
+            .then(function (successObj) {
                 toastr.success('Ticket successfully updated.');
                 $('#main-content').text('');
                 document.location.href = '#';
-            }, function(err) {
+            }, function (err) {
                 toastr.error(err.responseJSON);
             })
     };
@@ -139,7 +142,7 @@ function updateTicket() {
 
 function getNewComments() {
     const comments = [];
-    $('.new-comment').each(function(index, el) {
+    $('.new-comment').each(function (index, el) {
         const user = el.children[0].children[0].children[0].children[0].textContent;
         const date = el.children[0].children[0].children[0].children[1].textContent;
         const text = el.children[0].children[0].children[1].textContent;
@@ -153,7 +156,7 @@ function getNewComments() {
 }
 
 function initQuickSerachEvent() {
-    $('#quick-serach-button').on('click', function() {
+    $('#quick-serach-button').on('click', function () {
         const input = $('#quick-serach-input');
         if (!input.val()) {
             toastr.error("Quick Serach is empty");
