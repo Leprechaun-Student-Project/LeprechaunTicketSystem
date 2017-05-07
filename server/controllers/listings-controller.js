@@ -1,35 +1,41 @@
 module.exports = function(db) {
 
-    function post_For_Length(request, response) {
-        let page_Index = request.params.page_Index;
-
-        db.collection('tickets').count().then(function(total_Tickets_Length) {
-            console.log('Node says: post for length: ' + total_Tickets_Length);
-
+    function getTicketsCont(request, response) {
+        db.collection('tickets').count().then(function(totalTicketsLength) {
             response.status(201)
                 .json({
-                    total_Tickets_Length: total_Tickets_Length
+                    totalTicketsLength: totalTicketsLength
                 });
         });
     }
 
-    function post_For_Tickets(request, response) {
-        let page_Index = request.params.page_Index;
-        let number_Of_Pages = request.params.number_Of_Pages;
+    function getTickets(request, response) {
+        const pageIndex = request.headers['page'];
+        const numberPerPages = request.headers['number-per-page'];
 
+        if (!pageIndex) {
+            response.status(400)
+                .json('Invalid page index');
+            return;
+        }
+
+        if (!numberPerPages) {
+            response.status(400)
+                .json('Invalid number per page');
+            return;
+        }
+        
         db.collection('tickets').find().toArray(function(e, TicketCollection) {
-
-            const array_Of_Tickets = TicketCollection.slice(page_Index * number_Of_Pages, number_Of_Pages + 1);
-            console.log('Node says: post for Tickets ' + JSON.stringify(array_Of_Tickets));
+            const tickets = TicketCollection.slice((pageIndex - 1) * numberPerPages, pageIndex * numberPerPages);
             response.status(201)
                 .json({
-                    array_Of_Tickets: array_Of_Tickets
+                    tickets: tickets
                 });
         });
     }
 
     return {
-        post_For_Tickets: post_For_Tickets,
-        post_For_Length: post_For_Length
+        getTicketsCont: getTicketsCont,
+        getTickets: getTickets
     };
 };
