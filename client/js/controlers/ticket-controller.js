@@ -1,8 +1,6 @@
 import * as templates from 'templates';
 import * as data from 'data';
-import {
-    validateTicket
-} from 'validator';
+import { validateTicket } from 'validator';
 
 function displayCreateTicketForm() {
 
@@ -115,6 +113,7 @@ function submitForm() {
 }
 
 function updateTicket() {
+    const comments = getNewComments();
     const ticket = {
         id: Number($('#ticketID').text()),
         user: $('#userName').text(),
@@ -122,7 +121,8 @@ function updateTicket() {
         longDescription: $('#lognDescription').val(),
         engineer: $('#engineer').attr('data-user-id'),
         urgency: $('#urgency-text').text(),
-        status: $('#status-text').text()
+        status: $('#status-text').text(),
+        comments: comments
     }
 
     if (validateTicket(ticket)) {
@@ -135,6 +135,21 @@ function updateTicket() {
                 toastr.error(err.responseJSON);
             })
     };
+}
+
+function getNewComments() {
+    const comments = [];
+    $('.new-comment').each(function(index, el) {
+        const user = el.children[0].children[0].children[0].children[0].textContent;
+        const date = el.children[0].children[0].children[0].children[1].textContent;
+        const text = el.children[0].children[0].children[1].textContent;
+        comments.push({
+            user: user,
+            date: date,
+            text: text
+        });
+    });
+    return comments;
 }
 
 function initQuickSerachEvent() {
