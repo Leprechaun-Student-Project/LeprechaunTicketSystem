@@ -3,49 +3,63 @@
         <tr>
             <th>
             </th>
-            {{#each tickets.[0].table_Tags}}
-            <th class="sort">
-                <span class="sorted">
-                </span>
-             {{@key}}
+             <th class="sort">
+                <span class="sorted"></span> ID
             </th>
-            {{/each}}
+           
+             <th class="sort">
+                <span class="sorted"></span> Start Date
+            </th>
+            <th class="sort">
+                <span class="sorted"></span> Engineer
+            </th>
+            <th class="sort">
+                <span class="sorted"></span> Created by
+            </th>
+            <th class="sort">
+                <span class="sorted"></span> Status
+            </th>
+            
+            <th class="sort">
+                <span class="sorted"></span> Urgency
+            </th>
+            
+            <th class="sort">
+                <span class="sorted"></span> Short Description
+            </th>
         </tr>
     </thead>
     <tbody>
-        {{#each tickets}}
-        <tr id="{{this.table_Tags.id}}">
+        {{#each ticket}}
+        <tr id="{{this.id}}">
             <td>
-                <a class="plus glyphicon glyphicon-plus" aria-hidden="true" role="button" data-toggle="collapse" href="#description{{this.table_Tags.id}}"
-                    aria-expanded="false" aria-controls="description{{this.table_Tags.id}}" />
+                <a class="plus glyphicon glyphicon-plus" aria-hidden="true" role="button" data-toggle="collapse" href="#description{{this.id}}"
+                    aria-expanded="false" aria-controls="description{{this.id}}"></td>
+
+            <td class="id"><a href="#/ticket/{{this.id}}">{{this.id}}</a>
             </td>
-            <td class="id">
-                <a href="#/table{{this.table_Tags.id}}">{{this.table_Tags.id}}</a>
+            <td class="date">{{this.date}}
             </td>
-            {{#each this.table_Tags}} {{#ifNotEqual @key "id"}}
-            <td class="id">
-                {{this}}
+            <td class="engineer">{{this.engineer}}
             </td>
-            {{/ifNotEqual}} {{/each}}
+            <td class="creator">{{this.user}}
+            </td>
+            <td class="status">{{this.status}}
+            </td>
+            <td class="urgency">{{this.urgency}}
+            </td>
+            <td class="shortDescription">{{this.shortDescription}}
+            </td>
             <tr>
-                <td colspan="{{getColSpan this.table_Tags}}">
-                    <div class="collapse" id="description{{this.table_Tags.id}}">
-                        <div class="descrypt">
-                            Full Description:
-                        </div>
+                <td colspan="9">
+                    <div class="collapse" id="description{{this.id}}">
                         <div class="well">
-                            {{this.descriptions.full_Description}}
-                        </div>
-                        <div class="descrypt">
-                            Additional Comments:
-                        </div>
-                        <div class="well">
-                            {{this.descriptions.additional_Comments}}
+                            {{this.longDescription}}
                         </div>
                     </div>
                 </td>
                 <tr>
-                    {{/each}}
                 </tr>
+                {{/each}}
     </tbody>
 </table>
