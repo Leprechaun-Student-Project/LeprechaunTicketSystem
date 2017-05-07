@@ -100,7 +100,8 @@ function getTicketsCount() {
     return requester_JSON.get('api/ticketsCount', {})
         .then(function(resp) {
             return {
-                result: resp.result
+                result: resp.totalTicketsLength,
+                maxTicketsPerPage:MAX_TICKET_PER_PAGE
             }
         });
 }

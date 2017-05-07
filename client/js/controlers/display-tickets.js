@@ -7,17 +7,32 @@ function displayTickets(params, query) {
         const queryParams = data.splitQueryParameters(query);
         page = queryParams['page'] || 1;
     }
-    Promise.all([templates.get('main'), data.getTicketsRange(page), templates.get('pagination'),data.getTicketsCount()])
-        .then(([mainTemplate, tickets, pagination,numberOfPages]) => {
+    Promise.all([templates.get('main'), data.getTicketsRange(page), templates.get('pagination'), data.getTicketsCount()])
+        .then(([mainTemplate, tickets, pagination, numberOfPages]) => {
+            let paginationSize = calculatePaginations(numberOfPages.result, numberOfPages.maxTicketsPerPage);
             $('#main-content')
                 .html(mainTemplate(tickets))
                 .append(pagination({
-                    page: ["1", "2", "..", "7", "8"]
+                    page: paginationSize
                 }));
             $('.plus').on('click', changeGliph);
             $('.sort').on('click', changeSort);
-            console.log(numberOfPages.result);
         });
+}
+
+function calculatePaginations(numberofTickets, ticketsPerPage) {
+    numberofTickets = numberofTickets || 1;
+    ticketsPerPage = ticketsPerPage || 1;
+    let numberOfPages = Math.ceil(numberofTickets / ticketsPerPage);
+    let result = [];
+    if (numberOfPages < 5) {
+        for (let i = 1; i <= numberOfPages; i += 1) {
+            result.push(i);
+        };
+    } else {
+        result = [1, 2, '..', numberOfPages - 1, numberOfPages];
+    }
+    return result;
 }
 
 function changeGliph() {
