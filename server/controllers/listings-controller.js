@@ -10,8 +10,8 @@ module.exports = function(db) {
     }
 
     function getTickets(request, response) {
-        const pageIndex = request.headers['page'];
-        const numberPerPages = request.headers['number-per-page'];
+        const pageIndex = +request.headers['page'];
+        const numberPerPages = +request.headers['number-per-page'];
 
         if (!pageIndex) {
             response.status(400)
@@ -24,7 +24,7 @@ module.exports = function(db) {
                 .json('Invalid number per page');
             return;
         }
-        
+
         db.collection('tickets').find().toArray(function(e, TicketCollection) {
             const tickets = TicketCollection.slice((pageIndex - 1) * numberPerPages, pageIndex * numberPerPages);
             response.status(201)

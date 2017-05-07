@@ -64,8 +64,8 @@ MongoClient.connect('mongodb://admin:admin@ds151060.mlab.com:51060/ticket-system
 
         // Listing the tickets routine
         const listingController = require("../server/controllers/listings-controller.js")(db);
-        express_App.get("/tickets", listingController.getTickets);
-        express_App.get("/ticketsCount", listingController.getTicketsCont);
+        express_App.get("/api/tickets", listingController.getTickets);
+        express_App.get("/api/ticketsCount", listingController.getTicketsCont);
 
         //popover
         const popoverController = require("../server/controllers/popover-controller.js")(db);

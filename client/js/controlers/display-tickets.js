@@ -1,53 +1,11 @@
 import * as templates from 'templates';
-import * as db from 'data';
+import * as data from 'data';
 
-
-let tableObjObj = {
-    ticket: [{
-        id: 1,
-        user: "Joe Dow",
-        date: "12/12/2016",
-        status: ["unresolved"],
-        shortDescription: "Bad work",
-        engineer: "EdEddy",
-        user: "XXX",
-        urgency: "mid",
-        status: "new",
-        longDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dictum, ante eget maximus lobortis, massa diam pharetra lectus, eu auctor neque justo ac risus. Phasellus ac dignissim neque, ultricies elementum quam. In nec diam non dui laoreet vulputate sit amet sit amet quam. Curabitur accumsan pharetra arcu non pharetra.'
-
-    }, {
-        id: 3,
-        user: "Joe Dow",
-        date: "12/12/2016",
-        status: ["unresolved"],
-        shortDescription: "Bad work",
-        engineer: "EdEddy",
-        user: "XXX",
-        urgency: "mid",
-        status: "new",
-        longDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dictum, ante eget maximus lobortis, massa diam pharetra lectus, eu auctor neque justo ac risus. Phasellus ac dignissim neque, ultricies elementum quam. In nec diam non dui laoreet vulputate sit amet sit amet quam. Curabitur accumsan pharetra arcu non pharetra.'
-
-    }, {
-        id: 2,
-        user: "Joe Dow",
-        date: "12/12/2016",
-        status: ["unresolved"],
-        shortDescription: "Bad work",
-        engineer: "EdEddy",
-        user: "XXX",
-        urgency: "mid",
-        status: "new",
-        longDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dictum, ante eget maximus lobortis, massa diam pharetra lectus, eu auctor neque justo ac risus. Phasellus ac dignissim neque, ultricies elementum quam. In nec diam non dui laoreet vulputate sit amet sit amet quam. Curabitur accumsan pharetra arcu non pharetra.'
-
-    }, ]
-};
-
-
-function display_Tickets(current_Page_Index) {
-    let tickets_Range = tableObjObj;
-    Promise.all([templates.get('main')])
-        .then(([mainTemplate]) => {
-            $('#main-content').html(mainTemplate(tickets_Range));
+function displayTickets(params, query) {
+    const page = 1;
+    Promise.all([templates.get('main'), data.getTicketsRange(page)])
+        .then(([mainTemplate, tickets]) => {
+            $('#main-content').html(mainTemplate(tickets));
             $('.plus').on('click', changeGliph);
             $('.sort').on('click', changeSort);
         });
@@ -77,6 +35,5 @@ function changeSort() {
 }
 
 export {
-    display_Tickets
+    displayTickets
 };
-
