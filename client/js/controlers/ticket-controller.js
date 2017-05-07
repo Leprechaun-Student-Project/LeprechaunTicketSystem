@@ -39,7 +39,10 @@ function displayUpdateTicketForm(params) {
             $('#select-urgency li a').on('click', selectOptionUrgency);
             $('#select-status li a').on('click', selectOptionStatus);
         }, () => {
-            $('#main-content').html('Error');
+            $('#main-content').html('');
+            const img = $('<img>');
+            img.attr('src', './img/error-404.png');
+            img.appendTo('#main-content');
         });
 }
 
