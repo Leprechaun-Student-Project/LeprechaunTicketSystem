@@ -25,7 +25,6 @@ function displayUpdateTicketForm(params) {
     Promise.all([templates.get('updateTicket'), data.getTicket(params.id), data.getUsers()])
         .then(([template, ticketResponse, users]) => {
             const ticket = ticketResponse.result.ticket;
-            console.log(ticket);
             const engineer = users.result.find(u => u.username.toLowerCase() === ticket.engineer.toLowerCase());
             $('#main-content').html(template({
                 ticket: ticket,
@@ -114,6 +113,7 @@ function initQuickSerachEvent() {
         if (!input.val()) {
             toastr.error("Quick Serach is empty");
         } else {
+            $('[data-toggle="popover"]').popover('hide');
             document.location.href = '#/ticket/' + input.val();
             input.val('');
         }

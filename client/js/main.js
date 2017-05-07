@@ -1,13 +1,7 @@
 import * as router from 'router';
-import {
-    initUserNavbar
-} from 'users';
-import {
-    initQuickSerachEvent
-} from 'ticket';
-import{
-    initiatePopover
-} from 'popover'
+import { initUserNavbar } from 'users';
+import { initQuickSerachEvent } from 'ticket';
+import{ initiatePopover } from 'popover'
 
 // Save initial tickets page offset to sessionStorage
 window.sessionStorage.setItem('current_page_index', '1'); // one based
