@@ -13,7 +13,7 @@ module.exports = function (db) {
         const pageIndex = +request.headers['page'];
         const numberPerPages = +request.headers['number-per-page'];
         const sortBy = request.headers['sort-by'];
-        const sortOrder=request.headers['sort-order'];
+        const sortOrder = request.headers['sort-order'];
         if (!pageIndex) {
             response.status(400)
                 .json('Invalid page index');
@@ -26,9 +26,7 @@ module.exports = function (db) {
             return;
         }
         let sortVar = {};
-        sortVar[sortBy]=+sortOrder;
-        console.log(sortBy);
-        console.log(sortVar);
+        sortVar[sortBy] = +sortOrder;
         db.collection('tickets').find().sort(sortVar).toArray(function (e, TicketCollection) {
             const tickets = TicketCollection.slice((pageIndex - 1) * numberPerPages, pageIndex * numberPerPages);
             response.status(201)

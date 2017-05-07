@@ -92,8 +92,6 @@ function changeSort() {
             .removeClass('glyphicon glyphicon-sort-by-attributes-alt');
         $this.addClass('glyphicon glyphicon-sort-by-attributes');
     }
-    console.log(sortBy);
-    console.log(sortOrder);
 }
 
 export {
