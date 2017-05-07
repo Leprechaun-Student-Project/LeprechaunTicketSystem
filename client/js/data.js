@@ -122,7 +122,23 @@ function getPopoverValue(inputValue) {
         }
     };
     return requester_JSON.get('api/popover', options)
+}
 
+function splitQueryParameters(query) {
+    const keyValPairs = [];
+    const params = {};
+
+    if (query.length) {
+        const keyValPairs = query.split('&');
+        for (const pairNum in keyValPairs) {
+            const key = keyValPairs[pairNum].split('=')[0];
+            if (!key.length) continue;
+            if (typeof params[key] === 'undefined')
+                params[key] = [];
+            params[key] = keyValPairs[pairNum].split('=')[1];
+        }
+    }
+    return params;
 }
 export {
     register,
@@ -135,5 +151,6 @@ export {
     getTicketsRange,
     getTicketsCount,
     getTicket,
-    getPopoverValue
+    getPopoverValue,
+    splitQueryParameters
 }

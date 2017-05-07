@@ -2,7 +2,11 @@ import * as templates from 'templates';
 import * as data from 'data';
 
 function displayTickets(params, query) {
-    const page = 1;
+    let page = 1;
+    if (!!query) {
+        const queryParams = data.splitQueryParameters(query);
+        page = queryParams['page'] || 1;
+    }
     Promise.all([templates.get('main'), data.getTicketsRange(page)])
         .then(([mainTemplate, tickets]) => {
             $('#main-content').html(mainTemplate(tickets));
