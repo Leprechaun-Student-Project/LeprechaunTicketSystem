@@ -2,14 +2,17 @@ import * as templates from 'templates';
 import * as data from 'data';
 
 function displayTickets(params, query) {
-    console.log(params);
-    console.log(params.page);
-    let page = params.page||1;
+    let page = params.page || 1;
     if (!!query) {
         const queryParams = data.splitQueryParameters(query);
         page = queryParams['page'] || 1;
     }
-    Promise.all([templates.get('main'), data.getTicketsRange(page), templates.get('pagination'), data.getTicketsCount()])
+    Promise.all([
+            templates.get('main'),
+            data.getTicketsRange(page),
+            templates.get('pagination'),
+            data.getTicketsCount()
+        ])
         .then(([mainTemplate, tickets, pagination, numberOfPages]) => {
             let paginationSize = calculatePaginations(numberOfPages.result, numberOfPages.maxTicketsPerPage);
             $('#main-content')
@@ -19,11 +22,24 @@ function displayTickets(params, query) {
                 }));
             $('.plus').on('click', changeGliph);
             $('.sort').on('click', changeSort);
+            addLinksToPagination(numberOfPages.result, numberOfPages.maxTicketsPerPage, page);
         });
 }
 
-function changePage(){
-
+function addLinksToPagination(numberOfTickets, ticketsPerPage, currentPage) {
+    let numberOfPages = Math.ceil(numberOfTickets / ticketsPerPage);
+    console.log(numberOfPages);
+    console.log(currentPage);
+    if (+currentPage > 1) {
+        $('.previous').attr('href', '#tickets/' + (+currentPage - 1));
+    } else {
+        $('.previous').attr('href', '#tickets/' + 1);
+    }
+    if (+currentPage < +numberOfPages) {
+        $('.next').attr('href', '#tickets/' + (+currentPage + 1));
+    } else {
+        $('.next').attr('href', '#tickets/' + (+currentPage));
+    }
 }
 
 function calculatePaginations(numberofTickets, ticketsPerPage) {
