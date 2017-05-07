@@ -117,6 +117,7 @@ function display_Tickets(current_Page_Index) {
             // add event listeners
             // TODO: plus minus switching doesnt work, it drop-downs well but doesnt change the icon acurrately
             $('.plus').on('click', changeGliph);
+            $('.sort').on('click', changeSort);
         });
     
     display_Pagination(current_Page_Index);
@@ -273,6 +274,18 @@ function changeGliph() {
     } else {
         $this.removeClass('glyphicon-minus');
         $this.addClass('glyphicon-plus');
+    }
+}
+
+function changeSort() {
+    let $this = $(this).children('.sorted');
+    if ($this.hasClass('glyphicon glyphicon-sort-by-attributes')) {
+        $this.removeClass('glyphicon glyphicon-sort-by-attributes');
+        $this.addClass('glyphicon glyphicon-sort-by-attributes-alt');
+    } else if ($this.hasClass('glyphicon glyphicon-sort-by-attributes-alt')) {
+        $this.removeClass('glyphicon glyphicon-sort-by-attributes-alt');
+    } else {
+        $this.addClass('glyphicon glyphicon-sort-by-attributes');
     }
 }
 

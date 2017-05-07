@@ -3,11 +3,13 @@
         <tr>
             <th>
             </th>
-        {{#each tickets.[0].table_Tags}}
-            <th>
-                {{@key}}
+            {{#each tickets.[0].table_Tags}}
+            <th class="sort">
+                <span class="sorted">
+                </span>
+             {{@key}}
             </th>
-        {{/each}}
+            {{/each}}
         </tr>
     </thead>
     <tbody>
@@ -15,18 +17,16 @@
         <tr id="{{this.table_Tags.id}}">
             <td>
                 <a class="plus glyphicon glyphicon-plus" aria-hidden="true" role="button" data-toggle="collapse" href="#description{{this.table_Tags.id}}"
-                    aria-expanded="false" aria-controls="description{{this.table_Tags.id}}"/>
+                    aria-expanded="false" aria-controls="description{{this.table_Tags.id}}" />
             </td>
             <td class="id">
                 <a href="#/table{{this.table_Tags.id}}">{{this.table_Tags.id}}</a>
             </td>
-            {{#each this.table_Tags}}
-                {{#ifNotEqual @key "id"}}
+            {{#each this.table_Tags}} {{#ifNotEqual @key "id"}}
             <td class="id">
                 {{this}}
             </td>
-                {{/ifNotEqual}}
-            {{/each}}
+            {{/ifNotEqual}} {{/each}}
             <tr>
                 <td colspan="{{getColSpan this.table_Tags}}">
                     <div class="collapse" id="description{{this.table_Tags.id}}">
@@ -44,8 +44,8 @@
                         </div>
                     </div>
                 </td>
-            <tr>
-        {{/each}}
-        </tr>
+                <tr>
+                    {{/each}}
+                </tr>
     </tbody>
 </table>
