@@ -67,11 +67,20 @@ function changeGliph() {
 function changeSort() {
     let $this = $(this).children('.sorted');
     if ($this.hasClass('glyphicon glyphicon-sort-by-attributes')) {
+        $('.sort').children('.sorted')
+            .removeClass('glyphicon glyphicon-sort-by-attributes')
+            .removeClass('glyphicon glyphicon-sort-by-attributes-alt');
         $this.removeClass('glyphicon glyphicon-sort-by-attributes');
         $this.addClass('glyphicon glyphicon-sort-by-attributes-alt');
     } else if ($this.hasClass('glyphicon glyphicon-sort-by-attributes-alt')) {
+        $('.sort').children('.sorted')
+            .removeClass('glyphicon glyphicon-sort-by-attributes')
+            .removeClass('glyphicon glyphicon-sort-by-attributes-alt');
         $this.removeClass('glyphicon glyphicon-sort-by-attributes-alt');
     } else {
+        $('.sort').children('.sorted')
+            .removeClass('glyphicon glyphicon-sort-by-attributes')
+            .removeClass('glyphicon glyphicon-sort-by-attributes-alt');
         $this.addClass('glyphicon glyphicon-sort-by-attributes');
     }
 }
@@ -79,4 +88,3 @@ function changeSort() {
 export {
     display_Tickets
 };
-
