@@ -4,8 +4,9 @@ const USERNAME_LOCAL_STORAGE_KEY = 'signed-in-user-username',
     AUTH_KEY_LOCAL_STORAGE_KEY = 'signed-in-user-auth-key',
     PAGE_INDEX_HEADER = 'page',
     NUMBER_PER_PAGE_HEADER = 'number-per-page',
-    MAX_TICKET_PER_PAGE = 10;
-
+    MAX_TICKET_PER_PAGE = 10,
+    SORT_BY='sort-by',
+    SORT_ORDER='sort-order';
 /* Users */
 
 function register(user) {
@@ -20,7 +21,7 @@ function register(user) {
     return requester_JSON.post('api/users', {
             data: reqUser
         })
-        .then(function(resp) {
+        .then(function (resp) {
             const user = resp.result;
             return {
                 username: resp.result.username
@@ -63,7 +64,7 @@ function sendNewTicket(ticketObj) {
     return requester_JSON.post('api/newticket', {
             data: ticketObj
         })
-        .then(function(resp) {
+        .then(function (resp) {
             return {
                 result: resp.result
             }
@@ -79,17 +80,19 @@ function updateTicket(ticket) {
         data: ticket
     };
     return requester_JSON.put('api/updateTicket', options)
-        .then(function(resp) {
+        .then(function (resp) {
             return {
                 result: resp.result
             }
         });
 }
 
-function getTicketsRange(page) {
+function getTicketsRange(page, sortBy,sortOrder) {
     const headers = {};
     headers[PAGE_INDEX_HEADER] = page;
     headers[NUMBER_PER_PAGE_HEADER] = MAX_TICKET_PER_PAGE;
+    headers[SORT_BY] = sortBy||'id';
+    headers[SORT_ORDER]=sortOrder||1;
     const options = {
         headers: headers
     };
@@ -98,10 +101,10 @@ function getTicketsRange(page) {
 
 function getTicketsCount() {
     return requester_JSON.get('api/ticketsCount', {})
-        .then(function(resp) {
+        .then(function (resp) {
             return {
                 result: resp.totalTicketsLength,
-                maxTicketsPerPage:MAX_TICKET_PER_PAGE
+                maxTicketsPerPage: MAX_TICKET_PER_PAGE
             }
         });
 }

@@ -1,7 +1,7 @@
-module.exports = function(db) {
+module.exports = function (db) {
 
     function getTicketsCont(request, response) {
-        db.collection('tickets').count().then(function(totalTicketsLength) {
+        db.collection('tickets').count().then(function (totalTicketsLength) {
             response.status(201)
                 .json({
                     totalTicketsLength: totalTicketsLength
@@ -12,7 +12,8 @@ module.exports = function(db) {
     function getTickets(request, response) {
         const pageIndex = +request.headers['page'];
         const numberPerPages = +request.headers['number-per-page'];
-
+        const sortBy = request.headers['sort-by'];
+        const sortOrder=request.headers['sort-order'];
         if (!pageIndex) {
             response.status(400)
                 .json('Invalid page index');
@@ -24,8 +25,11 @@ module.exports = function(db) {
                 .json('Invalid number per page');
             return;
         }
-
-        db.collection('tickets').find().toArray(function(e, TicketCollection) {
+        let sortVar = {};
+        sortVar[sortBy]=+sortOrder;
+        console.log(sortBy);
+        console.log(sortVar);
+        db.collection('tickets').find().sort(sortVar).toArray(function (e, TicketCollection) {
             const tickets = TicketCollection.slice((pageIndex - 1) * numberPerPages, pageIndex * numberPerPages);
             response.status(201)
                 .json({

@@ -1,6 +1,9 @@
 import * as templates from 'templates';
 import * as data from 'data';
 
+let sortBy;
+let sortOrder;
+
 function displayTickets(params, query) {
     let page = params.page || 1;
     if (!!query) {
@@ -9,7 +12,7 @@ function displayTickets(params, query) {
     }
     Promise.all([
             templates.get('main'),
-            data.getTicketsRange(page),
+            data.getTicketsRange(page, sortBy, sortOrder),
             templates.get('pagination'),
             data.getTicketsCount()
         ])
@@ -28,8 +31,6 @@ function displayTickets(params, query) {
 
 function addLinksToPagination(numberOfTickets, ticketsPerPage, currentPage) {
     let numberOfPages = Math.ceil(numberOfTickets / ticketsPerPage);
-    console.log(numberOfPages);
-    console.log(currentPage);
     if (+currentPage > 1) {
         $('.previous').attr('href', '#tickets/' + (+currentPage - 1));
     } else {
@@ -70,24 +71,29 @@ function changeGliph() {
 
 function changeSort() {
     let $this = $(this).children('.sorted');
+    sortBy = $this.attr('sortby');
     if ($this.hasClass('glyphicon glyphicon-sort-by-attributes')) {
+        sortOrder = -1;
         $('.sort').children('.sorted')
             .removeClass('glyphicon glyphicon-sort-by-attributes')
             .removeClass('glyphicon glyphicon-sort-by-attributes-alt');
         $this.removeClass('glyphicon glyphicon-sort-by-attributes');
         $this.addClass('glyphicon glyphicon-sort-by-attributes-alt');
     } else if ($this.hasClass('glyphicon glyphicon-sort-by-attributes-alt')) {
+        sortOrder = 1;
         $('.sort').children('.sorted')
             .removeClass('glyphicon glyphicon-sort-by-attributes')
             .removeClass('glyphicon glyphicon-sort-by-attributes-alt');
-
         $this.removeClass('glyphicon glyphicon-sort-by-attributes-alt');
     } else {
+        sortOrder = 1;
         $('.sort').children('.sorted')
             .removeClass('glyphicon glyphicon-sort-by-attributes')
             .removeClass('glyphicon glyphicon-sort-by-attributes-alt');
         $this.addClass('glyphicon glyphicon-sort-by-attributes');
     }
+    console.log(sortBy);
+    console.log(sortOrder);
 }
 
 export {
