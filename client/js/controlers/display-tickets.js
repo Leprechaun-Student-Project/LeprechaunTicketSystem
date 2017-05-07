@@ -118,6 +118,7 @@ function display_Tickets(current_Page_Index) {
             // TODO: plus minus switching doesnt work, it drop-downs well but doesnt change the icon acurrately
             $('.plus').on('click', changeGliph);
             $('.sort').on('click', changeSort);
+            $('.id').each(addLink);
         });
     
     display_Pagination(current_Page_Index);
@@ -289,6 +290,16 @@ function changeSort() {
     }
 }
 
+function addLink(index) {
+    $this = $(this);
+
+    let addressObj = {
+        address: '#ticket' + $this.text(),
+        idText: $this.text()
+    }
+    this.innerHTML = (Handlebars.compile(genLink)(addressObj));
+
+}
 export {
     display_Tickets
 };
