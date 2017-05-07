@@ -13,7 +13,8 @@ function initRouter() {
         .on('NewTicket', () => ticket.displayCreateTicketForm())
         .on('ticket/:id', (params) => ticket.displayUpdateTicketForm(params))
         .on('tickets', (params, query) => tickets.displayTickets(params, query))
-        .on('/', () => tickets.displayTickets());
+        .on('tickets/:page', (params, query) => tickets.displayTickets(params, query))
+        .on('/', () => tickets.displayTickets({},));
 }
 
 export {

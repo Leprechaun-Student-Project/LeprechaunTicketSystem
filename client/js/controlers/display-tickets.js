@@ -2,7 +2,9 @@ import * as templates from 'templates';
 import * as data from 'data';
 
 function displayTickets(params, query) {
-    let page = 1;
+    console.log(params);
+    console.log(params.page);
+    let page = params.page||1;
     if (!!query) {
         const queryParams = data.splitQueryParameters(query);
         page = queryParams['page'] || 1;
@@ -18,6 +20,10 @@ function displayTickets(params, query) {
             $('.plus').on('click', changeGliph);
             $('.sort').on('click', changeSort);
         });
+}
+
+function changePage(){
+
 }
 
 function calculatePaginations(numberofTickets, ticketsPerPage) {
