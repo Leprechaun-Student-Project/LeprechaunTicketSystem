@@ -10,11 +10,13 @@ module.exports = function (db) {
     }
 
     function getTickets(request, response) {
-        const pageIndex = +request.headers['page'];
-        const numberPerPages = +request.headers['number-per-page'];
-        const sortBy = request.headers['sort-by'];
-        const sortOrder = request.headers['sort-order'];
-        if (!pageIndex) {
+        const headers = request.headers;
+        const page = +headers['page'];
+        const numberPerPages = +headers['number-per-page'];
+        const sortByList = ['id', 'startdate', 'engineer', 'user', 'status', 'urgency', 'shortDescription'];
+
+        const sortOrder = 1;
+        if (!page) {
             response.status(400)
                 .json('Invalid page index');
             return;
@@ -25,10 +27,21 @@ module.exports = function (db) {
                 .json('Invalid number per page');
             return;
         }
+
+
         let sortVar = {};
-        sortVar[sortBy] = +sortOrder;
+        sortByList.forEach((key) => {
+            if (headers[key]) {
+                if (key !== 'startdate') {
+                    sortVar[key] = +headers[key];
+                } else {
+                    sortVar['date'] = +headers[key];
+                }
+            }
+        })
+
         db.collection('tickets').find().sort(sortVar).toArray(function (e, TicketCollection) {
-            const tickets = TicketCollection.slice((pageIndex - 1) * numberPerPages, pageIndex * numberPerPages);
+            const tickets = TicketCollection.slice((page - 1) * numberPerPages, page * numberPerPages);
             response.status(201)
                 .json({
                     tickets: tickets

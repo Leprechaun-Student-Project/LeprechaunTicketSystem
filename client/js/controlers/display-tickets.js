@@ -5,14 +5,16 @@ let sortBy;
 let sortOrder;
 
 function displayTickets(params, query) {
+    let queryParams = {};
     let page = 1;
     if (!!query) {
-        const queryParams = data.splitQueryParameters(query);
-        page = queryParams['page'] || 1;
+        queryParams = data.splitQueryParameters(query);
+        page = queryParams['page'];
     }
+
     Promise.all([
             templates.get('main'),
-            data.getTicketsRange(page, sortBy, sortOrder),
+            data.getTicketsRange(queryParams),
             templates.get('pagination'),
             data.getTicketsCount()
         ])
@@ -23,6 +25,24 @@ function displayTickets(params, query) {
                 .append(pagination({
                     page: paginationSize
                 }));
+
+            if (!!query) {
+                const queryParams = data.splitQueryParameters(query);
+                $('.sort').children('.sorted')
+                    .removeClass('glyphicon glyphicon-sort-by-attributes')
+                    .removeClass('glyphicon glyphicon-sort-by-attributes-alt');
+                for (const key in queryParams) {
+                    if (key !== 'page') {
+                        if (queryParams[key] === '1') {
+                            let temp = $(`[sortby=${key}]`);
+                            $(`[sortby=${key}]`).addClass('glyphicon glyphicon-sort-by-attributes-alt');
+                        } else {
+                            $(`[sortby=${key}]`).addClass('glyphicon glyphicon-sort-by-attributes');
+                        }
+                    }
+                }
+            }
+
             $('.plus').on('click', changeGliph);
             $('.sort').on('click', changeSort);
             addLinksToPagination(numberOfPages.result, numberOfPages.maxTicketsPerPage, page);
@@ -69,32 +89,36 @@ function changeGliph() {
     }
 }
 
+function changeQuery(currentAddress, sortBy, sortOrder) {
+    const currentRoute = currentAddress.split('?');
+    let options = currentRoute[1].split('&');
+    let splittedOptions = {};
+    options.forEach(function (option, index) {
+        let keys = option.split('=');
+        splittedOptions[keys[0]] = keys[1];
+    })
+    splittedOptions[sortBy] = sortOrder;
+    let newAddress = '';
+    for (const key in splittedOptions) {
+        if (splittedOptions[key] !== null) {
+            const param = key + '=' + splittedOptions[key] + '&';
+            newAddress += param;
+        }
+    }
+    newAddress = currentRoute[0] + '?' + newAddress.substr(0, newAddress.length - 1);
+    return newAddress;
+}
+
 function changeSort() {
-    console.log(location.href);
     let $this = $(this).children('.sorted');
-    sortBy = $this.attr('sortby');
-    if ($this.hasClass('glyphicon glyphicon-sort-by-attributes')) {
-        sortOrder = -1;
-        $('.sort').children('.sorted')
-            .removeClass('glyphicon glyphicon-sort-by-attributes')
-            .removeClass('glyphicon glyphicon-sort-by-attributes-alt');
-        $this.removeClass('glyphicon glyphicon-sort-by-attributes');
-        location.href += `&${sortBy}=-1`;
-        $this.addClass('glyphicon glyphicon-sort-by-attributes-alt');
-    } else if ($this.hasClass('glyphicon glyphicon-sort-by-attributes-alt')) {
-        sortOrder = 1;
-        $('.sort').children('.sorted')
-            .removeClass('glyphicon glyphicon-sort-by-attributes')
-            .removeClass('glyphicon glyphicon-sort-by-attributes-alt');
-        $this.removeClass('glyphicon glyphicon-sort-by-attributes-alt');
-        location.href += `&${sortBy}=1`;
+    let locationAddress = location.href;
+    const sortBy = $this.attr('sortby');
+    if ($this.hasClass('glyphicon glyphicon-sort-by-attributes-alt')) {
+        location.href = changeQuery(locationAddress, sortBy, -1);
+    } else if ($this.hasClass('glyphicon glyphicon-sort-by-attributes')) {
+        location.href = changeQuery(locationAddress, sortBy, null);
     } else {
-        sortOrder = 1;
-        $('.sort').children('.sorted')
-            .removeClass('glyphicon glyphicon-sort-by-attributes')
-            .removeClass('glyphicon glyphicon-sort-by-attributes-alt');
-            location.href += `&${sortBy}=1`;
-        $this.addClass('glyphicon glyphicon-sort-by-attributes');
+        location.href = changeQuery(locationAddress, sortBy, 1);
     }
 }
 

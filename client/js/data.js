@@ -2,11 +2,9 @@ import * as requester_JSON from 'json-requester';
 
 const USERNAME_LOCAL_STORAGE_KEY = 'signed-in-user-username',
     AUTH_KEY_LOCAL_STORAGE_KEY = 'signed-in-user-auth-key',
-    PAGE_INDEX_HEADER = 'page',
     NUMBER_PER_PAGE_HEADER = 'number-per-page',
     MAX_TICKET_PER_PAGE = 5,
-    SORT_BY='sort-by',
-    SORT_ORDER='sort-order';
+    QUERY_PARAMS_HEADER = 'query-params';
 /* Users */
 
 function register(user) {
@@ -87,12 +85,16 @@ function updateTicket(ticket) {
         });
 }
 
-function getTicketsRange(page, sortBy,sortOrder) {
+function getTicketsRange(queryParams) {
     const headers = {};
-    headers[PAGE_INDEX_HEADER] = page;
     headers[NUMBER_PER_PAGE_HEADER] = MAX_TICKET_PER_PAGE;
-    headers[SORT_BY] = sortBy||'id';
-    headers[SORT_ORDER]=sortOrder||1;
+    for (const key in queryParams) {
+        if (key === 'date') {
+            headers['startDate'] = queryParams[key];
+        } else {
+            headers[key] = queryParams[key];
+        }
+    }
     const options = {
         headers: headers
     };
