@@ -38,7 +38,7 @@ function login(username, pass) {
 }
 
 function getUsers() {
-    return requester_JSON.get('/api/users', {});
+    return requester_JSON.get('api/users', {});
 }
 
 function getLoggedInUser() {

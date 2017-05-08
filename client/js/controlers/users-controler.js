@@ -112,7 +112,7 @@ function login(username, password) {
                 $('#nav-username').removeClass('hidden');
                 $('#nav-username').html(username);
                 toastr.success(`Hi, ${username}`);
-                location.href = '#';
+                location.href = '#/tickets?page=1';
             },
             errorMsg => {
                 toastr.error(errorMsg.responseJSON);
@@ -125,7 +125,7 @@ function logout() {
     $('#log-out').addClass('hidden');
     $('#nav-username').addClass('hidden');
     toastr.success('Logged out');
-    location.href = '#';
+    location.href = '#/tickets?page=1';
 }
 
 function initUserNavbar() {

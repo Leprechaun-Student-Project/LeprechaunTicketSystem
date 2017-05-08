@@ -45,6 +45,20 @@ describe('Data Layer Tests', () => {
                     //  isLoggedInStub.restore();
                 });
         });
+        describe('getUsers tests', () => {
+            it('Expect getUsers to call json requester get', () => {
+                const jsonRequesterGetStub = sinon.stub(requester_JSON, 'get');
+                data.getUsers();
+                expect(jsonRequesterGetStub).to.have.been.calledOnce;
+                jsonRequesterGetStub.restore();
+            });
+            it('Expect getUsers to make get request to api/users', () => {
+                const jsonRequesterGetStub = sinon.stub(requester_JSON, 'get');
+                data.getUsers();
+                expect(jsonRequesterGetStub).to.have.been.calledWith('api/users');
+                jsonRequesterGetStub.restore();
+            });
+        });
     });
     describe('Tickets tests', () => {
         describe('getTicket tests', () => {
