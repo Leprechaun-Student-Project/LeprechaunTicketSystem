@@ -10,6 +10,18 @@
 </head>
 
 <body>
+    <div id="fb-root"></div>
+    <script>
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/bg_BG/sdk.js#xfbml=1&version=v2.9&appId=1782653155307248";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -73,7 +85,8 @@
 
     <footer class="footer navbar-fixed-bottom">
         <div class="container">
-            <p class="text-muted">Some footer content here.</p>
+                <strong>&copy; All rights reserved Leprechaun Team </strong>
+                <div class="fb-share-button" data-href="https://github.com/Leprechaun-Student-Project/LeprechaunTicketSystem" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgithub.com%2FLeprechaun-Student-Project%2FLeprechaunTicketSystem&amp;src=sdkpreparse">Share</a></div>
         </div>
     </footer>
 
