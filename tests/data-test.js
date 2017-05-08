@@ -133,6 +133,234 @@ describe('Data Layer Tests', () => {
                 CryptoJSStub.restore();
             });
         });
+        describe('Register Tests', () => {
+            it('Expect register to call json requester post', () => {
+                const jsonRequesterPOSTStub = sinon.stub(requester_JSON, 'post');
+                const passHash = "passHash";
+                const CryptoJSStub = sinon.stub(CryptoJS, 'SHA256').returns(passHash);
+                const user = {
+                    username: 'username',
+                    pass: 'password',
+                    frstname: 'firstname',
+                    lsname: 'lastname',
+                    email: 'email'
+                };
+
+                const response = {
+                    result: user
+                };
+                jsonRequesterPOSTStub.returns(Promise.resolve(response));
+
+                data.register(user);
+                expect(jsonRequesterPOSTStub).to.have.been.calledOnce;
+                jsonRequesterPOSTStub.restore();
+                CryptoJSStub.restore();
+            });
+            it('Expect register to make put request to api/users', () => {
+                const jsonRequesterPOSTStub = sinon.stub(requester_JSON, 'post');
+                const passHash = "passHash";
+                const CryptoJSStub = sinon.stub(CryptoJS, 'SHA256').returns(passHash);
+                const user = {
+                    username: 'username',
+                    pass: 'password',
+                    frstname: 'firstname',
+                    lsname: 'lastname',
+                    email: 'email'
+                };
+
+                const response = {
+                    result: user
+                };
+                jsonRequesterPOSTStub.returns(Promise.resolve(response));
+
+                data.register(user);
+                expect(jsonRequesterPOSTStub).to.have.been.calledWith('api/users');
+                jsonRequesterPOSTStub.restore();
+                CryptoJSStub.restore();
+            });
+            it('Expect CryptoJS.SHA256 to be called', () => {
+                const jsonRequesterPOSTStub = sinon.stub(requester_JSON, 'post');
+                const passHash = "passHash";
+                const CryptoJSStub = sinon.stub(CryptoJS, 'SHA256').returns(passHash);
+                const user = {
+                    username: 'username',
+                    pass: 'password',
+                    frstname: 'firstname',
+                    lsname: 'lastname',
+                    email: 'email'
+                };
+
+                const response = {
+                    result: user
+                };
+                jsonRequesterPOSTStub.returns(Promise.resolve(response));
+
+                data.register(user);
+                expect(CryptoJSStub).to.have.been.calledOnce;
+                jsonRequesterPOSTStub.restore();
+                CryptoJSStub.restore();
+            });
+            it('Expect CryptoJS.SHA256 to be called with the password parameter', () => {
+                const jsonRequesterPOSTStub = sinon.stub(requester_JSON, 'post');
+                const passHash = "passHash";
+                const CryptoJSStub = sinon.stub(CryptoJS, 'SHA256').returns(passHash);
+                const user = {
+                    username: 'username',
+                    pass: 'password',
+                    frstname: 'firstname',
+                    lsname: 'lastname',
+                    email: 'email'
+                };
+
+                const response = {
+                    result: user
+                };
+                jsonRequesterPOSTStub.returns(Promise.resolve(response));
+
+                data.register(user);
+                expect(CryptoJSStub).to.have.been.calledWith(user.pass);
+                jsonRequesterPOSTStub.restore();
+                CryptoJSStub.restore();
+            });
+            it('Expect register to make post request to api/users with parameter username', () => {
+                const jsonRequesterPOSTStub = sinon.stub(requester_JSON, 'post');
+                const passHash = "passHash";
+                const CryptoJSStub = sinon.stub(CryptoJS, 'SHA256').returns(passHash);
+                const user = {
+                    username: 'username',
+                    pass: 'password',
+                    frstname: 'firstname',
+                    lsname: 'lastname',
+                    email: 'email'
+                };
+
+                const response = {
+                    result: user
+                };
+                jsonRequesterPOSTStub.returns(Promise.resolve(response));
+
+                data.register(user);
+                expect(jsonRequesterPOSTStub.args[0][1].data.username).to.be.equal(user.username);
+                jsonRequesterPOSTStub.restore();
+                CryptoJSStub.restore();
+            });
+            it('Expect register to make post request to api/users with parameter passHash returned by CryptoJS', () => {
+                const jsonRequesterPOSTStub = sinon.stub(requester_JSON, 'post');
+                const passHash = "passHash";
+                const CryptoJSStub = sinon.stub(CryptoJS, 'SHA256').returns(passHash);
+                const user = {
+                    username: 'username',
+                    pass: 'password',
+                    frstname: 'firstname',
+                    lsname: 'lastname',
+                    email: 'email'
+                };
+
+                const response = {
+                    result: user
+                };
+                jsonRequesterPOSTStub.returns(Promise.resolve(response));
+
+                data.register(user);
+                expect(jsonRequesterPOSTStub.args[0][1].data.passHash).to.be.equal(passHash);
+                jsonRequesterPOSTStub.restore();
+                CryptoJSStub.restore();
+            });
+            it('Expect register to make post request to api/users with parameter frstname', () => {
+                const jsonRequesterPOSTStub = sinon.stub(requester_JSON, 'post');
+                const passHash = "passHash";
+                const CryptoJSStub = sinon.stub(CryptoJS, 'SHA256').returns(passHash);
+                const user = {
+                    username: 'username',
+                    pass: 'password',
+                    frstname: 'firstname',
+                    lsname: 'lastname',
+                    email: 'email'
+                };
+
+                const response = {
+                    result: user
+                };
+                jsonRequesterPOSTStub.returns(Promise.resolve(response));
+
+                data.register(user);
+                expect(jsonRequesterPOSTStub.args[0][1].data.frstname).to.be.equal(user.frstname);
+                jsonRequesterPOSTStub.restore();
+                CryptoJSStub.restore();
+            });
+            it('Expect register to make post request to api/users with parameter lsname', () => {
+                const jsonRequesterPOSTStub = sinon.stub(requester_JSON, 'post');
+                const passHash = "passHash";
+                const CryptoJSStub = sinon.stub(CryptoJS, 'SHA256').returns(passHash);
+                const user = {
+                    username: 'username',
+                    pass: 'password',
+                    frstname: 'firstname',
+                    lsname: 'lastname',
+                    email: 'email'
+                };
+
+                const response = {
+                    result: user
+                };
+                jsonRequesterPOSTStub.returns(Promise.resolve(response));
+
+                data.register(user);
+                expect(jsonRequesterPOSTStub.args[0][1].data.lsname).to.be.equal(user.lsname);
+                jsonRequesterPOSTStub.restore();
+                CryptoJSStub.restore();
+            });
+            it('Expect register to make post request to api/users with parameter email', () => {
+                const jsonRequesterPOSTStub = sinon.stub(requester_JSON, 'post');
+                const passHash = "passHash";
+                const CryptoJSStub = sinon.stub(CryptoJS, 'SHA256').returns(passHash);
+                const user = {
+                    username: 'username',
+                    pass: 'password',
+                    frstname: 'firstname',
+                    lsname: 'lastname',
+                    email: 'email'
+                };
+
+                const response = {
+                    result: user
+                };
+                jsonRequesterPOSTStub.returns(Promise.resolve(response));
+
+                data.register(user);
+                expect(jsonRequesterPOSTStub.args[0][1].data.email).to.be.equal(user.email);
+                jsonRequesterPOSTStub.restore();
+                CryptoJSStub.restore();
+            });
+            it('Expect register to return username in result property', (done) => {
+                const jsonRequesterPOSTStub = sinon.stub(requester_JSON, 'post');
+                const passHash = "passHash";
+                const CryptoJSStub = sinon.stub(CryptoJS, 'SHA256').returns(passHash);
+                const user = {
+                    username: 'username',
+                    pass: 'password',
+                    frstname: 'firstname',
+                    lsname: 'lastname',
+                    email: 'email'
+                };
+
+                const response = {
+                    result: {
+                        username: user.username
+                    }
+                };
+
+                jsonRequesterPOSTStub.returns(Promise.resolve(response));
+
+                data.register(user).then((res) => {
+                        expect(res.username).to.be.equal(user.username);
+                    })
+                    .then(done, done);
+
+                jsonRequesterPOSTStub.restore();
+                CryptoJSStub.restore();
+            });
+        });
     });
     describe('Tickets tests', () => {
         describe('getTicket tests', () => {

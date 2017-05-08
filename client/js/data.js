@@ -20,7 +20,6 @@ function register(user) {
             data: reqUser
         })
         .then(function(resp) {
-            const user = resp.result;
             return {
                 username: resp.result.username
             };
