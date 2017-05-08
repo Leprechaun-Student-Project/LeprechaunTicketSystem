@@ -27,5 +27,11 @@
     "systemjs-plugin-babel": "0.0.21",
     "toastr": "^2.1.2",
     "underscore-db": "^0.9.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.3.0",
+    "sinon": "^2.2.0",
+    "sinon-chai": "^2.10.0"
   }
 }

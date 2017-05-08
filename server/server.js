@@ -13,6 +13,8 @@ express_App.use(express.static('../client'));
 
 express_App.use('/node_modules', express.static('node_modules'));
 
+express_App.use('/tests', express.static('../tests'));
+
 const nodemailer = require('nodemailer');
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
