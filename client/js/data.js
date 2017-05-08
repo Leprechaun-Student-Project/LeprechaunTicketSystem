@@ -19,7 +19,7 @@ function register(user) {
     return requester_JSON.post('api/users', {
             data: reqUser
         })
-        .then(function (resp) {
+        .then(function(resp) {
             const user = resp.result;
             return {
                 username: resp.result.username
@@ -62,7 +62,7 @@ function sendNewTicket(ticketObj) {
     return requester_JSON.post('api/newticket', {
             data: ticketObj
         })
-        .then(function (resp) {
+        .then(function(resp) {
             return {
                 result: resp.result
             }
@@ -78,7 +78,7 @@ function updateTicket(ticket) {
         data: ticket
     };
     return requester_JSON.put('api/updateTicket', options)
-        .then(function (resp) {
+        .then(function(resp) {
             return {
                 result: resp.result
             }
@@ -103,7 +103,7 @@ function getTicketsRange(queryParams) {
 
 function getTicketsCount() {
     return requester_JSON.get('api/ticketsCount', {})
-        .then(function (resp) {
+        .then(function(resp) {
             return {
                 result: resp.totalTicketsLength,
                 maxTicketsPerPage: MAX_TICKET_PER_PAGE
@@ -134,7 +134,7 @@ function splitQueryParameters(query) {
     const keyValPairs = [];
     const params = {};
 
-    if (query.length) {
+    if (!!query && query.length) {
         const keyValPairs = query.split('&');
         for (const pairNum in keyValPairs) {
             const key = keyValPairs[pairNum].split('=')[0];

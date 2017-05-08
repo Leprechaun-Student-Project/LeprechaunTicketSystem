@@ -64,9 +64,23 @@ describe('Data Layer Tests', () => {
                 expect(jsonRequesterGetStub.args[0][1].headers.inputValue).to.be.equal('48');
                 jsonRequesterGetStub.restore();
             });
-        })
+        });
+        describe('splitQueryParameters Tests', () => {
+            it('Expect splitQueryParameters to return empty object when no parameters are passed', () => {
+                expect(data.splitQueryParameters()).to.be.deep.equal({});
+            });
+            it('Expect splitQueryParameters to return empty object when empty string is passed', () => {
+                expect(data.splitQueryParameters("")).to.be.deep.equal({});
+            });
+            it('Expect splitQueryParameters to return splited parameters in object when valid query string is passed', () => {
+                const expected = {
+                    page: '1',
+                    engineer: '1'
+                };
+                expect(data.splitQueryParameters("page=1&engineer=1")).to.be.deep.equal(expected);
+            });
+        });
     });
-
 });
 
 mocha.run();
