@@ -3,7 +3,8 @@ import * as requester_JSON from 'json-requester';
 
 const USERNAME_LOCAL_STORAGE_KEY = 'signed-in-user-username',
     AUTH_KEY_LOCAL_STORAGE_KEY = 'signed-in-user-auth-key',
-    MAX_TICKET_PER_PAGE = 5;
+    MAX_TICKET_PER_PAGE = 5,
+    NUMBER_PER_PAGE_HEADER = 'number-per-page';
 
 const clearLocalStorage = () => {
     localStorage.removeItem(USERNAME_LOCAL_STORAGE_KEY);
@@ -116,6 +117,49 @@ describe('Data Layer Tests', () => {
                         expect(res.maxTicketsPerPage).to.be.equal(MAX_TICKET_PER_PAGE);
                     })
                     .then(done, done);
+                jsonRequesterGetStub.restore();
+            });
+        });
+        describe('getTicketsRange tests', () => {
+            it('Expect getTicketsRange to call json requester get', () => {
+                const jsonRequesterGetStub = sinon.stub(requester_JSON, 'get');
+                jsonRequesterGetStub.returns(Promise.resolve());
+                data.getTicketsRange();
+                expect(jsonRequesterGetStub).to.have.been.calledOnce;
+                jsonRequesterGetStub.restore();
+            });
+            it('Expect getTicketsRange to make get request to api/tickets', () => {
+                const jsonRequesterGetStub = sinon.stub(requester_JSON, 'get');
+                jsonRequesterGetStub.returns(Promise.resolve());
+                data.getTicketsRange();
+                expect(jsonRequesterGetStub).to.have.been.calledWith('api/tickets');
+                jsonRequesterGetStub.restore();
+            });
+            it('Expect getTicketsRange to make get request with headers number-per-page', () => {
+                const jsonRequesterGetStub = sinon.stub(requester_JSON, 'get');
+                data.getTicketsRange({});
+                expect(jsonRequesterGetStub.args[0][1].headers[NUMBER_PER_PAGE_HEADER]).to.be.equal(MAX_TICKET_PER_PAGE);
+                jsonRequesterGetStub.restore();
+            });
+            it('Expect getTicketsRange to make get request with headers passed as parameter', () => {
+                const jsonRequesterGetStub = sinon.stub(requester_JSON, 'get');
+                const queryParams = {
+                    page: 1,
+                    engineer: 1
+                };
+                data.getTicketsRange(queryParams);
+                for (const key in queryParams) {
+                    expect(jsonRequesterGetStub.args[0][1].headers[key]).to.be.equal(queryParams[key]);
+                };
+                jsonRequesterGetStub.restore();
+            });
+            it('Expect getTicketsRange to make get request with headers startDate when date is passed as parameter', () => {
+                const jsonRequesterGetStub = sinon.stub(requester_JSON, 'get');
+                const queryParams = {
+                    date: 1
+                };
+                data.getTicketsRange(queryParams);
+                    expect(jsonRequesterGetStub.args[0][1].headers['startDate']).to.be.equal(queryParams['date']);
                 jsonRequesterGetStub.restore();
             });
         });
