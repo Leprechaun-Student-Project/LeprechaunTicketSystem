@@ -5,7 +5,7 @@ let sortBy;
 let sortOrder;
 
 function displayTickets(params, query) {
-    let page = params.page || 1;
+    let page = 1;
     if (!!query) {
         const queryParams = data.splitQueryParameters(query);
         page = queryParams['page'] || 1;
@@ -32,14 +32,14 @@ function displayTickets(params, query) {
 function addLinksToPagination(numberOfTickets, ticketsPerPage, currentPage) {
     let numberOfPages = Math.ceil(numberOfTickets / ticketsPerPage);
     if (+currentPage > 1) {
-        $('.previous').attr('href', '#tickets/' + (+currentPage - 1));
+        $('.previous').attr('href', '#/tickets?page=' + (+currentPage - 1));
     } else {
-        $('.previous').attr('href', '#tickets/' + 1);
+        $('.previous').attr('href', '#/tickets?page=' + 1);
     }
     if (+currentPage < +numberOfPages) {
-        $('.next').attr('href', '#tickets/' + (+currentPage + 1));
+        $('.next').attr('href', '#/tickets?page=' + (+currentPage + 1));
     } else {
-        $('.next').attr('href', '#tickets/' + (+currentPage));
+        $('.next').attr('href', '#/tickets?page=' + (+currentPage));
     }
 }
 

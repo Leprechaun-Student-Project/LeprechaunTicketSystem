@@ -4,7 +4,7 @@ const USERNAME_LOCAL_STORAGE_KEY = 'signed-in-user-username',
     AUTH_KEY_LOCAL_STORAGE_KEY = 'signed-in-user-auth-key',
     PAGE_INDEX_HEADER = 'page',
     NUMBER_PER_PAGE_HEADER = 'number-per-page',
-    MAX_TICKET_PER_PAGE = 10,
+    MAX_TICKET_PER_PAGE = 5,
     SORT_BY='sort-by',
     SORT_ORDER='sort-order';
 /* Users */
