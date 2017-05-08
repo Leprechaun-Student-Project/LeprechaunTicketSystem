@@ -70,6 +70,7 @@ function changeGliph() {
 }
 
 function changeSort() {
+    console.log(location.href);
     let $this = $(this).children('.sorted');
     sortBy = $this.attr('sortby');
     if ($this.hasClass('glyphicon glyphicon-sort-by-attributes')) {
@@ -78,6 +79,7 @@ function changeSort() {
             .removeClass('glyphicon glyphicon-sort-by-attributes')
             .removeClass('glyphicon glyphicon-sort-by-attributes-alt');
         $this.removeClass('glyphicon glyphicon-sort-by-attributes');
+        location.href += `&${sortBy}=-1`;
         $this.addClass('glyphicon glyphicon-sort-by-attributes-alt');
     } else if ($this.hasClass('glyphicon glyphicon-sort-by-attributes-alt')) {
         sortOrder = 1;
@@ -85,11 +87,13 @@ function changeSort() {
             .removeClass('glyphicon glyphicon-sort-by-attributes')
             .removeClass('glyphicon glyphicon-sort-by-attributes-alt');
         $this.removeClass('glyphicon glyphicon-sort-by-attributes-alt');
+        location.href += `&${sortBy}=1`;
     } else {
         sortOrder = 1;
         $('.sort').children('.sorted')
             .removeClass('glyphicon glyphicon-sort-by-attributes')
             .removeClass('glyphicon glyphicon-sort-by-attributes-alt');
+            location.href += `&${sortBy}=1`;
         $this.addClass('glyphicon glyphicon-sort-by-attributes');
     }
 }
