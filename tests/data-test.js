@@ -44,6 +44,35 @@ describe('Data Layer Tests', () => {
                 });
         });
     });
+    describe('Tickets tests', () => {
+        describe('getTicket tests', () => {
+            it('Expect getTicket to call json requester get', () => {
+                const jsonRequesterGetStub = sinon.stub(requester_JSON, 'get');
+                data.getTicket('1');
+                expect(jsonRequesterGetStub).to.have.been.calledOnce;
+                jsonRequesterGetStub.restore();
+            });
+            it('Expect getTicket to make get request to api/popover', () => {
+                const jsonRequesterGetStub = sinon.stub(requester_JSON, 'get');
+                data.getTicket('1');
+                expect(jsonRequesterGetStub).to.have.been.calledWith('api/ticket');
+                jsonRequesterGetStub.restore();
+            });
+            it('Expect getTicket to make get request with headers ticket', () => {
+                const jsonRequesterGetStub = sinon.stub(requester_JSON, 'get');
+                data.getTicket('1');
+                expect(jsonRequesterGetStub.args[0][1].headers.ticket).to.be.equal('1');
+                jsonRequesterGetStub.restore();
+            });
+            it('Expect getTicket to make get request with headers ticket', () => {
+                const jsonRequesterGetStub = sinon.stub(requester_JSON, 'get');
+                localStorage.setItem(AUTH_KEY_LOCAL_STORAGE_KEY, 'valid-auth-key');
+                data.getTicket('1');
+                expect(jsonRequesterGetStub.args[0][1].headers['x-auth-key']).to.be.equal('valid-auth-key');
+                jsonRequesterGetStub.restore();
+            });
+        });
+    });
     describe('Utils Tests', () => {
         describe('getPopoverValue Tests', () => {
             it('Expect getPopoverValue to call json requester get', () => {
