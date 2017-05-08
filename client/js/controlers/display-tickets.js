@@ -31,6 +31,7 @@ function displayTickets(params, query) {
                 $('.sort').children('.sorted')
                     .removeClass('glyphicon glyphicon-sort-by-attributes')
                     .removeClass('glyphicon glyphicon-sort-by-attributes-alt');
+
                 for (const key in queryParams) {
                     if (key !== 'page') {
                         if (queryParams[key] === '1') {
@@ -42,7 +43,7 @@ function displayTickets(params, query) {
                     }
                 }
             }
-
+            $('.middlePagination').on('click', changeMiddlePagination);
             $('.plus').on('click', changeGliph);
             $('.sort').on('click', changeSort);
             addLinksToPagination(numberOfPages.result, numberOfPages.maxTicketsPerPage, page);
@@ -62,6 +63,17 @@ function addLinksToPagination(numberOfTickets, ticketsPerPage, currentPage) {
         $('.next').attr('href', changeQuery(locationAddress, 'page', +currentPage + 1));
     } else {
         $('.next').attr('href', changeQuery(locationAddress, 'page', +currentPage));
+    }
+}
+
+function changeMiddlePagination() {
+    const currentAddress = location.href;
+    const currentPageNumber = $(this).attr('data-page');
+    if (currentPageNumber !== '..') {
+        let newAddress = changeQuery(currentAddress, 'page', currentPageNumber);
+        $(this).attr('href', newAddress);
+    } else {
+        $(this).attr('href', currentAddress);
     }
 }
 
