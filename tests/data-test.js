@@ -2,7 +2,8 @@ import * as data from 'data';
 import * as requester_JSON from 'json-requester';
 
 const USERNAME_LOCAL_STORAGE_KEY = 'signed-in-user-username',
-    AUTH_KEY_LOCAL_STORAGE_KEY = 'signed-in-user-auth-key';
+    AUTH_KEY_LOCAL_STORAGE_KEY = 'signed-in-user-auth-key',
+    MAX_TICKET_PER_PAGE = 5;
 
 const clearLocalStorage = () => {
     localStorage.removeItem(USERNAME_LOCAL_STORAGE_KEY);
@@ -52,7 +53,7 @@ describe('Data Layer Tests', () => {
                 expect(jsonRequesterGetStub).to.have.been.calledOnce;
                 jsonRequesterGetStub.restore();
             });
-            it('Expect getTicket to make get request to api/popover', () => {
+            it('Expect getTicket to make get request to api/ticket', () => {
                 const jsonRequesterGetStub = sinon.stub(requester_JSON, 'get');
                 data.getTicket('1');
                 expect(jsonRequesterGetStub).to.have.been.calledWith('api/ticket');
@@ -69,6 +70,52 @@ describe('Data Layer Tests', () => {
                 localStorage.setItem(AUTH_KEY_LOCAL_STORAGE_KEY, 'valid-auth-key');
                 data.getTicket('1');
                 expect(jsonRequesterGetStub.args[0][1].headers['x-auth-key']).to.be.equal('valid-auth-key');
+                jsonRequesterGetStub.restore();
+            });
+        });
+        describe('getTicketsCount tests', () => {
+            it('Expect getTicketsCount to call json requester get', () => {
+                const jsonRequesterGetStub = sinon.stub(requester_JSON, 'get');
+                const response = {
+                    totalTicketsLength: 10
+                };
+                jsonRequesterGetStub.returns(Promise.resolve(response));
+                data.getTicketsCount();
+                expect(jsonRequesterGetStub).to.have.been.calledOnce;
+                jsonRequesterGetStub.restore();
+            });
+            it('Expect getTicketsCount to make get request to api/ticketsCount', () => {
+                const jsonRequesterGetStub = sinon.stub(requester_JSON, 'get');
+                const response = {
+                    totalTicketsLength: 10
+                };
+                jsonRequesterGetStub.returns(Promise.resolve(response));
+                data.getTicketsCount();
+                expect(jsonRequesterGetStub).to.have.been.calledWith('api/ticketsCount');
+                jsonRequesterGetStub.restore();
+            });
+            it('Expect getTicketsCount to return totalTicketsLength in result property', (done) => {
+                const jsonRequesterGetStub = sinon.stub(requester_JSON, 'get');
+                const response = {
+                    totalTicketsLength: 10
+                };
+                jsonRequesterGetStub.returns(Promise.resolve(response));
+                data.getTicketsCount().then((res) => {
+                        expect(res.result).to.be.equal(response.totalTicketsLength);
+                    })
+                    .then(done, done);
+                jsonRequesterGetStub.restore();
+            });
+            it('Expect getTicketsCount to return maxTicketsPerPage in result property', (done) => {
+                const jsonRequesterGetStub = sinon.stub(requester_JSON, 'get');
+                const response = {
+                    totalTicketsLength: 10
+                };
+                jsonRequesterGetStub.returns(Promise.resolve(response));
+                data.getTicketsCount().then((res) => {
+                        expect(res.maxTicketsPerPage).to.be.equal(MAX_TICKET_PER_PAGE);
+                    })
+                    .then(done, done);
                 jsonRequesterGetStub.restore();
             });
         });
