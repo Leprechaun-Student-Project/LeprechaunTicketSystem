@@ -59,6 +59,80 @@ describe('Data Layer Tests', () => {
                 jsonRequesterGetStub.restore();
             });
         });
+        describe('Login Tests', () => {
+            it('Expect login to call json requester put', () => {
+                const jsonRequesterPUTStub = sinon.stub(requester_JSON, 'put');
+                const passHash = "passHash";
+                const CryptoJSStub = sinon.stub(CryptoJS, 'SHA256').returns(passHash);
+                const username = 'validUser';
+                const pass = "validPass";
+
+                data.login(username, pass);
+                expect(jsonRequesterPUTStub).to.have.been.calledOnce;
+                jsonRequesterPUTStub.restore();
+                CryptoJSStub.restore();
+            });
+            it('Expect login to make put request to api/auth', () => {
+                const jsonRequesterPUTStub = sinon.stub(requester_JSON, 'put');
+                const passHash = "passHash";
+                const CryptoJSStub = sinon.stub(CryptoJS, 'SHA256').returns(passHash);
+                const username = 'validUser';
+                const pass = "validPass";
+
+                data.login(username, pass);
+                expect(jsonRequesterPUTStub).to.have.been.calledWith('api/auth');
+                jsonRequesterPUTStub.restore();
+                CryptoJSStub.restore();
+            });
+            it('Expect CryptoJS.SHA256 to be called', () => {
+                const jsonRequesterPUTStub = sinon.stub(requester_JSON, 'put');
+                const passHash = "passHash";
+                const CryptoJSStub = sinon.stub(CryptoJS, 'SHA256').returns(passHash);
+                const username = 'validUser';
+                const pass = "validPass";
+
+                data.login(username, pass);
+                expect(CryptoJSStub).to.have.been.calledOnce;
+                jsonRequesterPUTStub.restore();
+                CryptoJSStub.restore();
+            });
+            it('Expect CryptoJS.SHA256 to be called with the password parameter', () => {
+                const jsonRequesterPUTStub = sinon.stub(requester_JSON, 'put');
+                const passHash = "passHash";
+                const CryptoJSStub = sinon.stub(CryptoJS, 'SHA256').returns(passHash);
+                const username = 'validUser';
+                const pass = "validPass";
+
+                data.login(username, pass);
+                expect(CryptoJSStub).to.have.been.calledWith(pass);
+                jsonRequesterPUTStub.restore();
+                CryptoJSStub.restore();
+            });
+            it('Expect login to make put request to api/auth with parameter username', () => {
+                const jsonRequesterPUTStub = sinon.stub(requester_JSON, 'put');
+                const passHash = "passHash";
+                const CryptoJSStub = sinon.stub(CryptoJS, 'SHA256').returns(passHash);
+                const username = 'validUser';
+                const pass = "validPass";
+
+                data.login(username, pass);
+                expect(jsonRequesterPUTStub.args[0][1].data.username).to.be.equal(username);
+                jsonRequesterPUTStub.restore();
+                CryptoJSStub.restore();
+            });
+            it('Expect login to make put request to api/auth with parameter passHash crypted by CryptoJS', () => {
+                const jsonRequesterPUTStub = sinon.stub(requester_JSON, 'put');
+                const passHash = "passHash";
+                const CryptoJSStub = sinon.stub(CryptoJS, 'SHA256').returns(passHash);
+                const username = 'validUser';
+                const pass = "validPass";
+
+                data.login(username, pass);
+                expect(jsonRequesterPUTStub.args[0][1].data.passHash).to.be.equal(passHash);
+                jsonRequesterPUTStub.restore();
+                CryptoJSStub.restore();
+            });
+        });
     });
     describe('Tickets tests', () => {
         describe('getTicket tests', () => {
