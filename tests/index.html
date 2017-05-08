@@ -12,6 +12,7 @@
     <script src="../node_modules/chai/chai.js"></script>
     <script src="../node_modules/sinon/pkg/sinon.js"></script>
     <script src="../node_modules/sinon-chai/lib/sinon-chai.js"></script>
+    <script src="../node_modules/crypto-js/crypto-js.js"></script>
 
     <script src="../node_modules/systemjs/dist/system.js"></script>
     <script src="./config/system-config.js"></script>
@@ -20,7 +21,9 @@
     <div id="mocha"></div>
     <script>
         mocha.setup('bdd');
-        const { expect } = chai;
+        const {
+            expect
+        } = chai;
     </script>
     <script type="text/javascript">
         System.import('./data-test.js');

@@ -180,21 +180,30 @@ describe('Data Layer Tests', () => {
         describe('updateTicket Tests', () => {
             it('Expect updateTicket to call json requester put', () => {
                 const jsonRequesterPUTStub = sinon.stub(requester_JSON, 'put');
-                jsonRequesterPUTStub.returns(Promise.resolve());
+                const response = {
+                    result: "some result"
+                };
+                jsonRequesterPUTStub.returns(Promise.resolve(response));
                 data.updateTicket();
                 expect(jsonRequesterPUTStub).to.have.been.calledOnce;
                 jsonRequesterPUTStub.restore();
             });
             it('Expect updateTicket to make put request to api/updateTicket', () => {
                 const jsonRequesterPUTStub = sinon.stub(requester_JSON, 'put');
-                jsonRequesterPUTStub.returns(Promise.resolve());
+                const response = {
+                    result: "some result"
+                };
+                jsonRequesterPUTStub.returns(Promise.resolve(response));
                 data.updateTicket();
                 expect(jsonRequesterPUTStub).to.have.been.calledWith('api/updateTicket');
                 jsonRequesterPUTStub.restore();
             });
             it('Expect updateTicket to make put request with headers x-auth-key', () => {
                 const jsonRequesterPUTStub = sinon.stub(requester_JSON, 'put');
-                jsonRequesterPUTStub.returns(Promise.resolve());
+                const response = {
+                    result: "some result"
+                };
+                jsonRequesterPUTStub.returns(Promise.resolve(response));
                 localStorage.setItem(AUTH_KEY_LOCAL_STORAGE_KEY, 'valid-auth-key');
                 data.updateTicket();
                 expect(jsonRequesterPUTStub.args[0][1].headers['x-auth-key']).to.be.equal('valid-auth-key');
@@ -202,7 +211,10 @@ describe('Data Layer Tests', () => {
             });
             it('Expect updateTicket to make put request with data passed as parameter', () => {
                 const jsonRequesterPUTStub = sinon.stub(requester_JSON, 'put');
-                jsonRequesterPUTStub.returns(Promise.resolve());
+                const response = {
+                    result: "some result"
+                };
+                jsonRequesterPUTStub.returns(Promise.resolve(response));
                 localStorage.setItem(AUTH_KEY_LOCAL_STORAGE_KEY, 'valid-auth-key');
                 const ticket = {
                     id: 10
@@ -227,21 +239,30 @@ describe('Data Layer Tests', () => {
         describe('sendNewTicket tests', () => {
             it('Expect sendNewTicket to call json requester post', () => {
                 const jsonRequesterPOSTStub = sinon.stub(requester_JSON, 'post');
-                jsonRequesterPOSTStub.returns(Promise.resolve());
+                const resp = {
+                    result: "some result"
+                }
+                jsonRequesterPOSTStub.returns(Promise.resolve(resp));
                 data.sendNewTicket();
                 expect(jsonRequesterPOSTStub).to.have.been.calledOnce;
                 jsonRequesterPOSTStub.restore();
             });
             it('Expect sendNewTicket to make post request to api/newticket', () => {
                 const jsonRequesterPOSTStub = sinon.stub(requester_JSON, 'post');
-                jsonRequesterPOSTStub.returns(Promise.resolve());
+                const resp = {
+                    result: "some result"
+                }
+                jsonRequesterPOSTStub.returns(Promise.resolve(resp));
                 data.sendNewTicket();
                 expect(jsonRequesterPOSTStub).to.have.been.calledWith('api/newticket');
                 jsonRequesterPOSTStub.restore();
             });
             it('Expect sendNewTicket to make post request with data passed as parameter', () => {
                 const jsonRequesterPOSTStub = sinon.stub(requester_JSON, 'post');
-                jsonRequesterPOSTStub.returns(Promise.resolve());
+                const resp = {
+                    result: "some result"
+                }
+                jsonRequesterPOSTStub.returns(Promise.resolve(resp));
                 const ticket = {
                     id: 10
                 };
