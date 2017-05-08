@@ -210,6 +210,44 @@ describe('Data Layer Tests', () => {
                 jsonRequesterPUTStub.restore();
             });
         });
+        describe('sendNewTicket tests', () => {
+            it('Expect sendNewTicket to call json requester post', () => {
+                const jsonRequesterPOSTStub = sinon.stub(requester_JSON, 'post');
+                jsonRequesterPOSTStub.returns(Promise.resolve());
+                data.sendNewTicket();
+                expect(jsonRequesterPOSTStub).to.have.been.calledOnce;
+                jsonRequesterPOSTStub.restore();
+            });
+            it('Expect sendNewTicket to make post request to api/newticket', () => {
+                const jsonRequesterPOSTStub = sinon.stub(requester_JSON, 'post');
+                jsonRequesterPOSTStub.returns(Promise.resolve());
+                data.sendNewTicket();
+                expect(jsonRequesterPOSTStub).to.have.been.calledWith('api/newticket');
+                jsonRequesterPOSTStub.restore();
+            });
+            it('Expect sendNewTicket to make post request with data passed as parameter', () => {
+                const jsonRequesterPOSTStub = sinon.stub(requester_JSON, 'post');
+                jsonRequesterPOSTStub.returns(Promise.resolve());
+                const ticket = {
+                    id: 10
+                };
+                data.sendNewTicket(ticket);
+                expect(jsonRequesterPOSTStub.args[0][1].data).to.be.equal(ticket);
+                jsonRequesterPOSTStub.restore();
+            });
+            it('Expect sendNewTicket to return result property in responce', (done) => {
+                const jsonRequesterPOSTStub = sinon.stub(requester_JSON, 'post');
+                const response = {
+                    result: "post-result"
+                };
+                jsonRequesterPOSTStub.returns(Promise.resolve(response));
+                data.sendNewTicket().then((res) => {
+                        expect(res.result).to.be.equal(response.result);
+                    })
+                    .then(done, done);
+                jsonRequesterPOSTStub.restore();
+            });
+        });
     });
     describe('Utils Tests', () => {
         describe('getPopoverValue Tests', () => {
