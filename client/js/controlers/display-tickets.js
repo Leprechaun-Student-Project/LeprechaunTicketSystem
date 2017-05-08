@@ -51,15 +51,17 @@ function displayTickets(params, query) {
 
 function addLinksToPagination(numberOfTickets, ticketsPerPage, currentPage) {
     let numberOfPages = Math.ceil(numberOfTickets / ticketsPerPage);
+    let locationAddress = location.href;
     if (+currentPage > 1) {
-        $('.previous').attr('href', '#/tickets?page=' + (+currentPage - 1));
+        $('.previous').attr('href', changeQuery(locationAddress, 'page', (+currentPage - 1)));
     } else {
-        $('.previous').attr('href', '#/tickets?page=' + 1);
+
+        $('.previous').attr('href', changeQuery(locationAddress, 'page', +1));
     }
     if (+currentPage < +numberOfPages) {
-        $('.next').attr('href', '#/tickets?page=' + (+currentPage + 1));
+        $('.next').attr('href', changeQuery(locationAddress, 'page', +currentPage + 1));
     } else {
-        $('.next').attr('href', '#/tickets?page=' + (+currentPage));
+        $('.next').attr('href', changeQuery(locationAddress, 'page', +currentPage));
     }
 }
 
