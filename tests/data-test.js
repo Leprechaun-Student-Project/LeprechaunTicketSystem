@@ -159,8 +159,55 @@ describe('Data Layer Tests', () => {
                     date: 1
                 };
                 data.getTicketsRange(queryParams);
-                    expect(jsonRequesterGetStub.args[0][1].headers['startDate']).to.be.equal(queryParams['date']);
+                expect(jsonRequesterGetStub.args[0][1].headers['startDate']).to.be.equal(queryParams['date']);
                 jsonRequesterGetStub.restore();
+            });
+        });
+        describe('updateTicket Tests', () => {
+            it('Expect updateTicket to call json requester put', () => {
+                const jsonRequesterPUTStub = sinon.stub(requester_JSON, 'put');
+                jsonRequesterPUTStub.returns(Promise.resolve());
+                data.updateTicket();
+                expect(jsonRequesterPUTStub).to.have.been.calledOnce;
+                jsonRequesterPUTStub.restore();
+            });
+            it('Expect updateTicket to make put request to api/updateTicket', () => {
+                const jsonRequesterPUTStub = sinon.stub(requester_JSON, 'put');
+                jsonRequesterPUTStub.returns(Promise.resolve());
+                data.updateTicket();
+                expect(jsonRequesterPUTStub).to.have.been.calledWith('api/updateTicket');
+                jsonRequesterPUTStub.restore();
+            });
+            it('Expect updateTicket to make put request with headers x-auth-key', () => {
+                const jsonRequesterPUTStub = sinon.stub(requester_JSON, 'put');
+                jsonRequesterPUTStub.returns(Promise.resolve());
+                localStorage.setItem(AUTH_KEY_LOCAL_STORAGE_KEY, 'valid-auth-key');
+                data.updateTicket();
+                expect(jsonRequesterPUTStub.args[0][1].headers['x-auth-key']).to.be.equal('valid-auth-key');
+                jsonRequesterPUTStub.restore();
+            });
+            it('Expect updateTicket to make put request with data passed as parameter', () => {
+                const jsonRequesterPUTStub = sinon.stub(requester_JSON, 'put');
+                jsonRequesterPUTStub.returns(Promise.resolve());
+                localStorage.setItem(AUTH_KEY_LOCAL_STORAGE_KEY, 'valid-auth-key');
+                const ticket = {
+                    id: 10
+                };
+                data.updateTicket(ticket);
+                expect(jsonRequesterPUTStub.args[0][1].data).to.be.equal(ticket);
+                jsonRequesterPUTStub.restore();
+            });
+            it('Expect updateTicket to return ticket in result property', (done) => {
+                const jsonRequesterPUTStub = sinon.stub(requester_JSON, 'put');
+                const response = {
+                    result: "put-result"
+                };
+                jsonRequesterPUTStub.returns(Promise.resolve(response));
+                data.updateTicket().then((res) => {
+                        expect(res.result).to.be.equal(response.result);
+                    })
+                    .then(done, done);
+                jsonRequesterPUTStub.restore();
             });
         });
     });
