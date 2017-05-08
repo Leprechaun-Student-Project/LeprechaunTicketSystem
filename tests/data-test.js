@@ -23,6 +23,25 @@ describe('Data Layer Tests', () => {
             });
     });
 
+    describe('getLoggedInUser Tests', () => {
+
+        it('Expect getLoggedInUser() to return unknown when non user is logged in',
+            () => {
+                //  const isLoggedInStub = sinon.stub(data, 'isLoggedIn').returns(false);
+                expect(data.getLoggedInUser()).to.be.equal('unknown');
+                //  isLoggedInStub.restore();
+            });
+        it('Expect getLoggedInUser() to return the username when user is logged in',
+            () => {
+                //  const isLoggedInStub = sinon.stub(data, 'isLoggedIn').returns(true);
+                localStorage.setItem(AUTH_KEY_LOCAL_STORAGE_KEY, 'valid-auth-key');
+                localStorage.setItem(USERNAME_LOCAL_STORAGE_KEY, 'validuser');
+
+                expect(data.getLoggedInUser()).to.be.equal('validuser');
+                //  isLoggedInStub.restore();
+            });
+    });
+
 });
 
 mocha.run();
